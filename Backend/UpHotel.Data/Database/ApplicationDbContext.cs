@@ -16,5 +16,8 @@ namespace UpHotel.Data.Database
         {
         }
 
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<RoomReservation> RoomReservations { get; set; }
+
     }
 }
