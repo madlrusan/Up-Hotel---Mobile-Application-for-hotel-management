@@ -1,22 +1,37 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { formStyles, styles } from "./LoginStyles";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { TextInput } from "react-native-paper";
 import "../../assets/Logo.png";
+import { UserContext } from "../context/UserContext";
+import { useNavigation } from "@react-navigation/native";
 export const Login = ()=>{
+	const context = useContext(UserContext);
+	const navigator = useNavigation();
 	const [state, setState] = useState<LoginState>({
 		loginCredentials: { email: "", password: "" },
 		isSubmitted: true,
 	});
+	useEffect(()=> {
+		if(state.loginCredentials.email !== "" && state.loginCredentials.password !== ""){
+			setState((prevState) => {
+				return { ...prevState, isSubmitted: false };
+			});
+		} else {
+			setState((prevState) => {
+				return { ...prevState, isSubmitted: true };
+			});
+		}
+	}, [state.loginCredentials]);
 	const onSubmit = () => {
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: true };
 		});
-		// context.login(
-		// 	state.loginCredentials.email,
-		// 	state.loginCredentials.password
-		// );
+		context.login(
+			state.loginCredentials.email,
+			state.loginCredentials.password
+		);
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: false };
 		});
