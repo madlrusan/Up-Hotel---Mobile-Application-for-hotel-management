@@ -3,7 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import  { useEffect } from "react";
 import { BackHandler } from "react-native";
 import { UserProvider } from "../context/UserContext";
-import { Login } from "../Login/Login";
+import { Login } from "../pages/Login/Login";
+import { AdminDashboard } from "../pages/Admin/Dashboard/AdminDashboard";
 import { RootStackParamList } from "../Models/types";
 import * as React from "react";
 export default function Navigation() {
@@ -30,8 +31,8 @@ function RootNavigator() {
 						screenOptions={{ headerShown: false, gestureEnabled: false }}
 					>
 						{/* <Stack.Screen name="Home" component={Home} /> */}
-						<Stack.Screen name="Login" component={Login} />
-						{/* <Stack.Screen name="Room" component={Room} /> */}
+						{/* <Stack.Screen name="Login" component={Login} /> */}
+						<Stack.Screen name="AdminDashboard" component={AdminDashboard} />
 					</Stack.Navigator>
 				</>
 			</UserProvider>
