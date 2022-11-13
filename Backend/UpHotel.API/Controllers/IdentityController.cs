@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UpHotel.Business.Contracts;
 using UpHotel.Business.ViewModels;
 
@@ -15,11 +16,19 @@ namespace UpHotel.API.Controllers
             _identityService = identityService;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var token = await _identityService.Login(model);
             return Ok(new { Token = token });
+        }
+
+        [HttpPost("user")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddOrUpdateUser(AddOrUpdateUserViewModel model)
+        {
+            await _identityService.AddOrUpdateUser(model);
+            return Ok();
         }
     }
 }

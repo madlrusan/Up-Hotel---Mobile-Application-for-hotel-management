@@ -13,7 +13,8 @@ namespace UpHotel.Data.Extensions
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("UpHotel.Data")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddRoleManager<RoleManager<IdentityRole>>();
             return services;
         }
     }
