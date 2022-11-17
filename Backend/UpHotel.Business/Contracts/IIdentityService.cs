@@ -6,5 +6,6 @@ namespace UpHotel.Business.Contracts
     {
         public Task<string> Login(LoginViewModel model);
         public Task AddOrUpdateUser(AddOrUpdateUserViewModel model);
+        public Task<IEnumerable<UserViewModel>> GetStaffUsers();
     }
 }

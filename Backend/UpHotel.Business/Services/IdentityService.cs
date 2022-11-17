@@ -144,6 +144,17 @@ namespace UpHotel.Business.Services
 
         }
 
+        public async Task<IEnumerable<UserViewModel>> GetStaffUsers()
+        {
+            var admins = await _userManager.GetUsersInRoleAsync("Admin");
+            var housekeepingUsers = await _userManager.GetUsersInRoleAsync("Housekeeping");
+
+            var users = admins.Select(a => new UserViewModel() { FirstName = a.FirstName, LastName = a.LastName, Email = a.Email, Role = "Admin" });
+            users = users.Concat(housekeepingUsers.Select(a => new UserViewModel() { FirstName = a.FirstName, LastName = a.LastName, Email = a.Email, Role = "Housekeeping" }));
+
+            return users;
+        }
+
         private bool IsValidEmail(string email)
         {
             var trimmedEmail = email.Trim();
