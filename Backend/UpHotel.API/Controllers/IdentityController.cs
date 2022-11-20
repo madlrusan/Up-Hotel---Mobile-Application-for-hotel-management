@@ -30,5 +30,12 @@ namespace UpHotel.API.Controllers
             await _identityService.AddOrUpdateUser(model);
             return Ok();
         }
+
+        [HttpGet("staff")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetStaffMembers()
+        {
+            return Ok(await _identityService.GetStaffUsers());
+        }
     }
 }
