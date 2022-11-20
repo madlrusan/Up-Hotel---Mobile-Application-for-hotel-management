@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { createContext, FC, ReactNode, useEffect, useState } from "react";
 import { User } from "../Models/User";
+import { Login } from "../pages/Login/Login";
 import { UserAPI } from "./API/UserAPI";
 axios.defaults.withCredentials = true;
 type UserContextType = {
@@ -11,6 +12,7 @@ type UserContextType = {
     logOut: any;
     getUser: any;
     setUser: any;
+    addUser: any;
 }
 
 export const UserContext  = createContext<UserContextType>(null);
@@ -74,17 +76,19 @@ export const UserProvider : FC = (props: {children}) => {
 	const logOut = () => {
 		const response = userAPI.logOut();
 		if (response) {
-			// @ts-ignore
 			navigator.navigate("Login");
 		}
 	};
-
+	const addUser = ()=> {
+		console.log("user added");
+	};
 	const ctx: UserContextType = {
 		user: user,
 		login: (email: string, password: string) => login(email, password),
 		logOut: () => logOut(),
 		getUser: () => getUser(),
 		setUser: (newUser: User) => setUser(newUser),
+		addUser: () => addUser(),
 	};
 	return <UserContext.Provider value={ctx}>{props.children}</UserContext.Provider>;
 };

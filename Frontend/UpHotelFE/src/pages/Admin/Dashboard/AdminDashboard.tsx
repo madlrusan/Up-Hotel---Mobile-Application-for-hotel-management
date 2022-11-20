@@ -1,10 +1,13 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { styles } from "./AdminDashbordStyles";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Appbar, Button, DataTable, Headline } from "react-native-paper";
 import { formStyles } from "../../../../AppStyles";
 import { staffMembers } from "../../../constants/mock-data";
+import { useNavigation } from "@react-navigation/native";
+import { AddNewStaff } from "../AddNewStaff/AddNewStaff";
+import { UserContext } from "../../../context/UserContext";
 export const TableRow = (name: string, position: string) => {
 
 	return (
@@ -18,7 +21,12 @@ export const TableRow = (name: string, position: string) => {
 };
 
 export const AdminDashboard = () => {
+	const userContext = useContext(UserContext);
 	const [page, setPage] = useState<number>(0);
+	const navigator = useNavigation();
+	const OnAddNewStaff = () => {
+		navigator.navigate("AddNewStaff");
+	};
 	return (
 		<>
 			<LinearGradient
@@ -53,10 +61,10 @@ export const AdminDashboard = () => {
 						</>
 					</DataTable>
 					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={() => console.log("Pressed")}>
+						<Button style={styles.Button} mode="contained" compact onPress={userContext.logOut}>
                             Log Out
 						</Button>
-						<Button style={styles.Button} mode="contained" compact onPress={() => console.log("Pressed")}>
+						<Button style={styles.Button} mode="contained" compact onPress={OnAddNewStaff}>
                             Add new staff member
 						</Button>
 					</View>

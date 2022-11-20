@@ -3,7 +3,6 @@ import {  styles } from "./LoginStyles";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { TextInput } from "react-native-paper";
-import "../../assets/Logo.png";
 import { UserContext } from "../../context/UserContext";
 import { useNavigation } from "@react-navigation/native";
 import { formStyles } from "../../../AppStyles";
@@ -47,7 +46,7 @@ export const Login = ()=>{
 				style={styles.container}
 			>
 				<Text style={styles.logoText}> UpHotel </Text>
-				<Image style={styles.logoImg} source={require("../../assets/Logo.png")}/>
+				<Image style={styles.logoImg} source={require("../../../assets/Logo.png")}/>
 				<View style={formStyles.cardBox}>
 					<Text style={formStyles.formHeader}>Welcome to UpHotel!</Text>
 					<Text style={formStyles.formSubHeader}>Please Login with given credentials</Text>
