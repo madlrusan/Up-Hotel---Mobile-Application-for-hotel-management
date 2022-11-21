@@ -7,6 +7,7 @@ import { Login } from "../pages/Login/Login";
 import { AdminDashboard } from "../pages/Admin/Dashboard/AdminDashboard";
 import { RootStackParamList } from "../Models/types";
 import * as React from "react";
+import { AddNewStaff } from "../pages/Admin/AddNewStaff/AddNewStaff";
 export default function Navigation() {
 	return (
 		<NavigationContainer>
@@ -33,6 +34,7 @@ function RootNavigator() {
 						{/* <Stack.Screen name="Home" component={Home} /> */}
 						{/* <Stack.Screen name="Login" component={Login} /> */}
 						<Stack.Screen name="AdminDashboard" component={AdminDashboard} />
+						<Stack.Screen name="AddNewStaff" component={AddNewStaff} />
 					</Stack.Navigator>
 				</>
 			</UserProvider>

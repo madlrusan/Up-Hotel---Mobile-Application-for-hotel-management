@@ -32,11 +32,11 @@ export const styles = StyleSheet.create({
 	cardBox: {
 		width: (Dimensions.get("window").width * 8) / 10,
 		height:
-      Platform.OS === "ios" ? (Dimensions.get("window").height * 5) / 12 + 25 : (Dimensions.get("window").height * 5) / 12,
+      Platform.OS === "ios" ? (Dimensions.get("window").height * 6) / 12 + 25 : (Dimensions.get("window").height * 5) / 12,
 		backgroundColor: "#fff",
 		borderRadius: 20,
 		padding: 16,
-		marginTop: 50,
+		marginTop: 10,
 		marginLeft: 40,
 		marginRight: 40
 	},
@@ -49,12 +49,14 @@ export const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginTop: 20
+		marginTop: 10,
 
 	},
 	Button: {
-		// flex: 1,
 		borderRadius: 5,
 
+	},
+	label: {
+		marginTop: 5,
 	}
 });
