@@ -8,6 +8,8 @@ import { UserContext } from "../../../context/UserContext";
 import { CheckIn } from "../CheckIn/CheckIn";
 import { CheckOut } from "../CheckOut/CheckOut";
 import { useNavigation } from "@react-navigation/native";
+import { ColoredStatus } from "../../../utils/helperFunctions";
+import { helperStyles } from "../../../utils/helperStyles";
 export const ReceptionistDashboard = () => {
 	const userContext = useContext(UserContext);
 	const navigator = useNavigation();
@@ -17,6 +19,7 @@ export const ReceptionistDashboard = () => {
 	const OnCheckOut = () => {
 		navigator.navigate(CheckOut);
 	};
+	
 	return (
 		<>
 			<LinearGradient
@@ -43,7 +46,7 @@ export const ReceptionistDashboard = () => {
 									return (
 										<DataTable.Row key={key}>
 											<DataTable.Cell>{room.number}</DataTable.Cell>
-											<DataTable.Cell>{room.status}</DataTable.Cell>
+											<DataTable.Cell>{ColoredStatus(room.status)}</DataTable.Cell>
 										</DataTable.Row>);
 								})}
 							</ScrollView>

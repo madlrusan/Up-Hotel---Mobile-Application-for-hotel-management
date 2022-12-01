@@ -36,11 +36,11 @@ export const rooms = [{
 },
 {
 	number: 156,
-	status: "In Progess of Cleaning",
+	status: "In Progress of Cleaning",
 },
 {
 	number: 3,
-	status: "In Progess of Cleaning",
+	status: "In Progress of Cleaning",
 },
 {
 	number: 5,
