@@ -8,7 +8,10 @@ const linking: LinkingOptions<RootStackParamList> = {
 		screens: {
 			Login: "Login",
 			AdminDashboard: "AdminDashboard",
-			AddNewStaff: "AddNewStaff"
+			AddNewStaff: "AddNewStaff",
+			ReceptionistDashboard: "ReceptionistDashboard",
+			CheckIn: "CheckIn",
+			CheckOut: "CheckOut"
 		},
 	},
 };

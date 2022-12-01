@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext, useEffect, useState } from "react";
 import { Appbar, Button, RadioButton, TextInput } from "react-native-paper";
 import { styles } from "./AddNewStaffStyles";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {  Text, View } from "react-native";
 import { formStyles } from "../../../../AppStyles";
 import { UserContext } from "../../../context/UserContext";
 import { useNavigation } from "@react-navigation/native";

@@ -4,6 +4,9 @@ export type RootStackParamList = {
   Login: undefined;
   AdminDashboard: undefined;
   AddNewStaff : undefined;
+  ReceptionistDashboard: undefined;
+  CheckIn: undefined;
+  CheckOut: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

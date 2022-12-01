@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import { styles } from "./AdminDashbordStyles";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Appbar, Button, DataTable, Headline } from "react-native-paper";
-import { formStyles } from "../../../../AppStyles";
 import { staffMembers } from "../../../constants/mock-data";
 import { useNavigation } from "@react-navigation/native";
 import { AddNewStaff } from "../AddNewStaff/AddNewStaff";
@@ -25,7 +24,7 @@ export const AdminDashboard = () => {
 	const [page, setPage] = useState<number>(0);
 	const navigator = useNavigation();
 	const OnAddNewStaff = () => {
-		navigator.navigate("AddNewStaff");
+		navigator.navigate(AddNewStaff);
 	};
 	return (
 		<>
@@ -38,7 +37,7 @@ export const AdminDashboard = () => {
 			>
 				<Appbar.Header mode="medium" style={styles.header}>
 					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
-					<Appbar.Action icon={require("../../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
+					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
 				<Text style={styles.logoText}> Admin Dashboard </Text>
 				<View style={styles.cardBox}>
