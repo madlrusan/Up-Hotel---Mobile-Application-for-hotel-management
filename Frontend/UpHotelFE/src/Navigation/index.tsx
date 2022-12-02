@@ -11,6 +11,8 @@ import { AddNewStaff } from "../pages/Admin/AddNewStaff/AddNewStaff";
 import {ReceptionistDashboard} from "../pages/Receptionist/Dashboard/ReceptionistDashboard";
 import { CheckIn } from "../pages/Receptionist/CheckIn/CheckIn";
 import { CheckOut } from "../pages/Receptionist/CheckOut/CheckOut";
+import { HouseKeeper } from "../pages/HouseKeeper/HouseKeeper";
+import { Room } from "../pages/Room/Room";
 export default function Navigation() {
 	return (
 		<NavigationContainer>
@@ -38,9 +40,11 @@ function RootNavigator() {
 						{/* <Stack.Screen name="Login" component={Login} /> */}
 						{/* <Stack.Screen name="AdminDashboard" component={AdminDashboard} /> */}
 						{/* <Stack.Screen name="AddNewStaff" component={AddNewStaff} /> */}
-						<Stack.Screen name="ReceptionistDashboard" component={ReceptionistDashboard} />
+						{/* <Stack.Screen name="ReceptionistDashboard" component={ReceptionistDashboard} />
 						<Stack.Screen name="CheckIn" component={CheckIn} />
-						<Stack.Screen name="CheckOut" component={CheckOut} />
+						<Stack.Screen name="CheckOut" component={CheckOut} /> */}
+						{/* <Stack.Screen name="HouseKeeper" component={HouseKeeper} /> */}
+						<Stack.Screen name="Room" component={Room} />
 					</Stack.Navigator>
 				</>
 			</UserProvider>

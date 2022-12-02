@@ -7,6 +7,8 @@ export type RootStackParamList = {
   ReceptionistDashboard: undefined;
   CheckIn: undefined;
   CheckOut: undefined;
+  HouseKeeper: undefined;
+  Room: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
