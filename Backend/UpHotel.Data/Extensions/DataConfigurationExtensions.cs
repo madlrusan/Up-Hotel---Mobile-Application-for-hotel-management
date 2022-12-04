@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using UpHotel.Data.Database;
 using UpHotel.Data.Entities;
+using UpHotel.Data.Repositories;
+using UpHotel.Data.Repositories.Contracts;
 
 namespace UpHotel.Data.Extensions
 {
@@ -15,6 +17,7 @@ namespace UpHotel.Data.Extensions
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
                 .AddRoleManager<RoleManager<IdentityRole>>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
             return services;
         }
     }
