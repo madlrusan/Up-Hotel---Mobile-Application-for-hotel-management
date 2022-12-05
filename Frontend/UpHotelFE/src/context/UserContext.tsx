@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import React, { createContext, FC, ReactNode, useEffect, useState } from "react";
+import React, { createContext, FC, useEffect, useState } from "react";
 import { User } from "../Models/User";
 import { Login } from "../pages/Login/Login";
 import { UserAPI } from "./API/UserAPI";
@@ -76,7 +76,7 @@ export const UserProvider : FC = (props: {children}) => {
 	const logOut = () => {
 		const response = userAPI.logOut();
 		if (response) {
-			navigator.navigate("Login");
+			navigator.navigate(Login);
 		}
 	};
 	const addUser = ()=> {
