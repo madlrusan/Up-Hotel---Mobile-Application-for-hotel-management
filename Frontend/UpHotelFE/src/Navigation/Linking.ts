@@ -11,7 +11,9 @@ const linking: LinkingOptions<RootStackParamList> = {
 			AddNewStaff: "AddNewStaff",
 			ReceptionistDashboard: "ReceptionistDashboard",
 			CheckIn: "CheckIn",
-			CheckOut: "CheckOut"
+			CheckOut: "CheckOut",
+			HouseKeeper: "HouseKeeper",
+			Room: "Room"
 		},
 	},
 };
