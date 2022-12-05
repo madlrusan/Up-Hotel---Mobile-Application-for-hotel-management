@@ -12,6 +12,7 @@ namespace UpHotel.Business.Extensions
         {
             services.AddDataServices(connectionString);
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IRoomService, RoomService>();
             return services;
         }
     }
