@@ -7,6 +7,7 @@ import { rooms } from "../../constants/mock-data";
 import { ColoredStatus } from "../../utils/helperFunctions";
 import { UserContext } from "../../context/UserContext";
 import Popover from "react-native-popover-view";
+import { headerStyle } from "../../../AppStyles";
 
 export const HouseKeeper = () => {
 	const [modalVisible, setModalVisible] = useState(false);

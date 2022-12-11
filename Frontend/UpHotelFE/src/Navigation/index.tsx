@@ -43,8 +43,8 @@ function RootNavigator() {
 						{/* <Stack.Screen name="ReceptionistDashboard" component={ReceptionistDashboard} />
 						<Stack.Screen name="CheckIn" component={CheckIn} />
 						<Stack.Screen name="CheckOut" component={CheckOut} /> */}
-						{/* <Stack.Screen name="HouseKeeper" component={HouseKeeper} /> */}
-						<Stack.Screen name="Room" component={Room} />
+						<Stack.Screen name="HouseKeeper" component={HouseKeeper} />
+						{/* <Stack.Screen name="Room" component={Room} /> */}
 					</Stack.Navigator>
 				</>
 			</UserProvider>

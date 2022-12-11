@@ -11,11 +11,9 @@ export class UserAPI {
 		this._endpoints = {};
 		this.baseUrl = baseUrl;
 		this._endpoints = {
-			register: "/api/Authentication/user/register",
-			login: "/api/Authentication/user/login",
-			logout: "/api/Authentication/logout",
-			getUser: "/api/User/get",
-			addQueue: "/api/Queue/add",
+			login: "/api/auth/login",
+			getUser: "/api/auth/user",
+			getStaff: "/api/auth/staff",
 		};
 	}
 	login = async (email: string, password: string) => {
@@ -65,5 +63,21 @@ export class UserAPI {
 		}
 		return content;
 	};
+
+	getStaff = async () => {
+		const response = await fetch(this.baseUrl + this._endpoints.getStaff, {
+			method: "get",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + (await getData("jwt")),
+			},
+		});
+		const content = await response.json();
+		if (content.status === 401) {
+			throw "Unauthorized";
+		}
+		return content;
+	};  
 
 }
