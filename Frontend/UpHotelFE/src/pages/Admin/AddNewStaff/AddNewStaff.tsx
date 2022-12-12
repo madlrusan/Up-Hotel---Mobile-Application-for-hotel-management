@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Appbar, Button, RadioButton, TextInput } from "react-native-paper";
 import { styles } from "./AddNewStaffStyles";
 import {  Text, View } from "react-native";
-import { formStyles } from "../../../../AppStyles";
+import { formStyles, headerStyle } from "../../../../AppStyles";
 import { UserContext } from "../../../context/UserContext";
 import { useNavigation } from "@react-navigation/native";
 
@@ -50,9 +50,9 @@ export const AddNewStaff = () => {
 				end={{x:0, y:1}}
 				style={styles.container}
 			>
-				<Appbar.Header mode="medium" style={styles.header}>
-					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
-					<Appbar.Action icon={require("../../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
+				<Appbar.Header mode="medium" style={headerStyle.header}>
+					<Appbar.Content title="UpHotel" titleStyle={headerStyle.headerLogoText}/>
+					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={headerStyle.headerLogo}/>
 				</Appbar.Header>
 				<Text style={styles.logoText}> Admin Dashboard </Text>
 				<View style={styles.cardBox}>

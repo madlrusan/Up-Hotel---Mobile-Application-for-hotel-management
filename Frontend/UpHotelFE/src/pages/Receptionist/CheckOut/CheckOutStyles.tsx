@@ -30,11 +30,11 @@ export const styles = StyleSheet.create({
 	cardBox: {
 		width: (Dimensions.get("window").width * 9) / 10,
 		height:
-      Platform.OS === "ios" ? (Dimensions.get("window").height * 5) / 12 + 25 : (Dimensions.get("window").height * 5) / 12,
+      Platform.OS === "ios" ? (Dimensions.get("window").height * 4.2) / 12 + 25 : (Dimensions.get("window").height * 5) / 12,
 		backgroundColor: "#fff",
 		borderRadius: 20,
 		padding: 16,
-		marginTop: 10,
+		marginTop: 50,
 		marginLeft: 20,
 		marginRight: 40
 	},

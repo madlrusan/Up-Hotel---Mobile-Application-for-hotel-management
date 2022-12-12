@@ -32,15 +32,15 @@ export const Room = () => {
                         Please choose the first button for “Do Not Disturb” option, the second button for “Clean up the room” option. For more Information, please “Call to Reception”, using the third button.
 					</Text>
 					<View style={styles.imgButtonContainer}>
-						<Button mode="outlined" style={styles.OptionButton}>
+						<Button mode="elevated" style={styles.OptionButton}>
 							<Image style={styles.Img} source={require("../../assets/DND.png")}/>
 						</Button>
-						<Button mode="outlined" style={styles.OptionButton}>
+						<Button mode="elevated" style={styles.OptionButton}>
 							<Image style={styles.Img} source={require("../../assets/Clean.png")}/>
 						</Button>
 					</View>
 					<View style={styles.imgButtonContainer}>
-						<Button mode="outlined" style={styles.OptionButton}>
+						<Button mode="elevated" style={styles.OptionButton}>
 							<Image style={styles.Img} source={require("../../assets/Call.png")}/>
 						</Button>
 					</View>

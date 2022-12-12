@@ -10,7 +10,8 @@ export const styles = StyleSheet.create({
 		alignItems : "center",
 		textAlign: "center",
 		fontSize: 70,
-		marginTop: -60,
+		// marginTop: -60,
+		marginTop: Platform.OS === "ios" ? -60 : 50,
 		letterSpacing: 0.46,
 	},
 	header: {
@@ -33,7 +34,7 @@ export const styles = StyleSheet.create({
 	cardBox: {
 		width: (Dimensions.get("window").width * 9) / 10,
 		height:
-      Platform.OS === "ios" ? (Dimensions.get("window").height * 5) / 12 + 25 : (Dimensions.get("window").height * 5) / 12,
+      Platform.OS === "ios" ? (Dimensions.get("window").height * 5) / 12 + 25 : (Dimensions.get("window").height * 6) / 12,
 		backgroundColor: "#fff",
 		borderRadius: 20,
 		padding: 16,
