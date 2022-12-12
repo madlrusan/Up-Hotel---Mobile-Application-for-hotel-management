@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UpHotel.Business.ViewModels
+namespace UpHotel.Business.Commands
 {
-    public class LoginViewModel
+    public class LoginCommand
     {
         public string Email { get; set; }
         public string Password { get; set; }

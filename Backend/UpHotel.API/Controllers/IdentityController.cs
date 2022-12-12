@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UpHotel.Business.Commands;
 using UpHotel.Business.Contracts;
 using UpHotel.Business.ViewModels;
 
@@ -17,7 +18,7 @@ namespace UpHotel.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginCommand model)
         {
             var token = await _identityService.Login(model);
             return Ok(new { Token = token });

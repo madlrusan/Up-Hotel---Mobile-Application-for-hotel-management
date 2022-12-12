@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
+using UpHotel.Business.Commands;
 using UpHotel.Business.Contracts;
 using UpHotel.Business.Exceptions;
 using UpHotel.Business.Options;
@@ -31,7 +32,7 @@ namespace UpHotel.Business.Services
             _roleManager = roleManager;
         }
 
-        public async Task<string> Login(LoginViewModel model)
+        public async Task<string> Login(LoginCommand model)
         {
             if (!IsValidEmail(model.Email))
                 throw new ValidationException("Please provide an email!");

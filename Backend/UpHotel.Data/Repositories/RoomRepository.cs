@@ -25,5 +25,8 @@ namespace UpHotel.Data.Repositories
         {
            return await _dbContext.Rooms.ToListAsync();
         }
+
+        public async Task SaveChangesAsync()
+            => await _dbContext.SaveChangesAsync();
     }
 }
