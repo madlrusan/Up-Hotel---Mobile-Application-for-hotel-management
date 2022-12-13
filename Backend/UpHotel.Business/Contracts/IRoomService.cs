@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UpHotel.Business.Commands;
 using UpHotel.Business.ViewModels;
+using UpHotel.Data.Entities;
 
 namespace UpHotel.Business.Contracts
 {
@@ -11,5 +13,6 @@ namespace UpHotel.Business.Contracts
     {
         Task<RoomViewModel> GetRoomStatus(int roomId);
         Task<List<RoomViewModel>> GetRoomsStatus();
+        Task UpdateRoomStatus(UpdateRoomStatusCommand cmd);
     }
 }

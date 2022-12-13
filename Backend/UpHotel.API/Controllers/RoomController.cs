@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UpHotel.Business.Commands;
 using UpHotel.Business.Contracts;
 
 namespace UpHotel.API.Controllers
@@ -31,6 +32,14 @@ namespace UpHotel.API.Controllers
             if (room is null) return NotFound();
 
             return Ok(room);
+        }
+
+        [HttpPut("status")]
+        [Authorize(Roles = "Admin,Housekeeping")]
+        public async Task<IActionResult> UpdateRoomStatus(UpdateRoomStatusCommand cmd)
+        {
+            await _roomService.UpdateRoomStatus(cmd);
+            return Ok();
         }
     }
 }

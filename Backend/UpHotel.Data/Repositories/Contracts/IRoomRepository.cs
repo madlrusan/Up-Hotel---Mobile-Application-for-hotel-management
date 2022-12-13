@@ -10,6 +10,7 @@ namespace UpHotel.Data.Repositories.Contracts
     public interface IRoomRepository
     {
         Task<Room> GetRoomAsync(int id); 
-        Task<List<Room>> GetRoomsAsync(); 
+        Task<List<Room>> GetRoomsAsync();
+        Task SaveChangesAsync();
     }
 }
