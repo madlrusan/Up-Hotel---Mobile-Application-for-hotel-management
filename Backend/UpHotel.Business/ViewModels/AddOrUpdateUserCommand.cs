@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UpHotel.Business.ViewModels
 {
-    public class AddOrUpdateUserViewModel
+    public class AddOrUpdateUserCommand
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

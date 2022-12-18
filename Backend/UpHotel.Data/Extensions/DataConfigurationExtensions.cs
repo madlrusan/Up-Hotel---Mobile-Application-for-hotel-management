@@ -18,6 +18,7 @@ namespace UpHotel.Data.Extensions
                 .AddDefaultTokenProviders()
                 .AddRoleManager<RoleManager<IdentityRole>>();
             services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IReservationRepository, ReservationRepository>();
             return services;
         }
     }
