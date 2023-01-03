@@ -23,13 +23,15 @@ namespace UpHotel.Business.Services
         private readonly JwtOptions _jwtOptions;
         private readonly ILogger<IdentityService> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public IdentityService(UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwtOptions, 
-            ILogger<IdentityService> logger, RoleManager<IdentityRole> roleManager)
+        private readonly IEmailService _emailService;
+        public IdentityService(UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwtOptions,
+            ILogger<IdentityService> logger, RoleManager<IdentityRole> roleManager, IEmailService emailService)
         {
             _userManager = userManager;
             _jwtOptions = jwtOptions.Value;
             _logger = logger;
             _roleManager = roleManager;
+            _emailService = emailService;
         }
 
         public async Task<string> Login(LoginCommand model)
@@ -74,35 +76,36 @@ namespace UpHotel.Business.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task AddOrUpdateUser(AddOrUpdateUserViewModel model)
+        public async Task AddOrUpdateUser(AddOrUpdateUserCommand cmd)
         {
-            if (!IsValidEmail(model.Email))
+            if (!IsValidEmail(cmd.Email))
                 throw new ValidationException("Please provide an email!");
 
-            if (!model.Roles.Any())
+            if (!cmd.Roles.Any())
                 throw new ValidationException("Please provide atleast one role!");
 
-            foreach (var role in model.Roles)
+            foreach (var role in cmd.Roles)
             {
                 if (!(await _roleManager.RoleExistsAsync(role)))
                     throw new ValidationException($"Role {role} is not valid!");
             }
 
 
-            var existingUser = await _userManager.FindByEmailAsync(model.Email);
+            var existingUser = await _userManager.FindByEmailAsync(cmd.Email);
 
             if (existingUser is null)
             {
-                if (string.IsNullOrEmpty(model.FirstName) || string.IsNullOrEmpty(model.LastName))
+                if (string.IsNullOrEmpty(cmd.FirstName) || string.IsNullOrEmpty(cmd.LastName))
                     throw new ValidationException("Please provide a valid name!");
 
                 var newUser = new ApplicationUser()
                 {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Email = model.Email,
-                    UserName = model.Email,
-                    EmailConfirmed = true
+                    FirstName = cmd.FirstName,
+                    LastName = cmd.LastName,
+                    Email = cmd.Email,
+                    UserName = cmd.Email,
+                    EmailConfirmed = true,
+                    PhoneNumber = cmd.PhoneNumber
                 };
 
                 var generatedPassword = GeneratePassword(16);
@@ -113,11 +116,16 @@ namespace UpHotel.Business.Services
                     throw new ValidationException(string.Join(", ", result.Errors.Select(p => p.Description)));
                 }
 
-                var rolesResult = await _userManager.AddToRolesAsync(newUser, model.Roles);
+                var rolesResult = await _userManager.AddToRolesAsync(newUser, cmd.Roles);
 
-                // send email here
-                _logger.LogWarning($"Created user {model.Email} with password {generatedPassword}");
-                _logger.LogInformation($"Roles [{string.Join(", ", model.Roles)}] added to user {model.Email}");
+                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+                    _logger.LogWarning($"Created user {cmd.Email} with password {generatedPassword}");
+                else
+                {
+                    await _emailService.SendEmailAsync(cmd.Email, "UpHotel account information", GetAccountInformationEmailBody(newUser, generatedPassword));
+                }
+
+                _logger.LogInformation($"Roles [{string.Join(", ", cmd.Roles)}] added to user {cmd.Email}");
 
                 return;
 
@@ -125,22 +133,22 @@ namespace UpHotel.Business.Services
 
             var userRoles = await _userManager.GetRolesAsync(existingUser);
 
-            var rolesToBeRemoved = userRoles.Where(r => !model.Roles.Contains(r));
+            var rolesToBeRemoved = userRoles.Where(r => !cmd.Roles.Contains(r));
 
             if (rolesToBeRemoved.Any())
             {
                 await _userManager.RemoveFromRolesAsync(existingUser, rolesToBeRemoved);
 
-                _logger.LogWarning($"Removing roles {string.Join(", ", rolesToBeRemoved)} from user {model.Email}");
+                _logger.LogWarning($"Removing roles {string.Join(", ", rolesToBeRemoved)} from user {cmd.Email}");
             }
 
-            var rolesToBeAdded = model.Roles.Where(r => !userRoles.Contains(r));
+            var rolesToBeAdded = cmd.Roles.Where(r => !userRoles.Contains(r));
 
             if (rolesToBeAdded.Any())
             {
                 await _userManager.AddToRolesAsync(existingUser, rolesToBeRemoved);
 
-                _logger.LogInformation($"Adding roles {string.Join(", ", rolesToBeRemoved)} to user {model.Email}");
+                _logger.LogInformation($"Adding roles {string.Join(", ", rolesToBeRemoved)} to user {cmd.Email}");
             }
 
         }
@@ -180,6 +188,12 @@ namespace UpHotel.Business.Services
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&?%$@";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[(new Random()).Next(s.Length)]).ToArray());
+        }
+
+        private string GetAccountInformationEmailBody(ApplicationUser user, string password)
+        {
+            return @$"<h2>Hello {user.FirstName + " " + user.LastName},</h2>
+                <p>Your password for the UpHotel account is: <b>{password}</b></p>";
         }
 
     }

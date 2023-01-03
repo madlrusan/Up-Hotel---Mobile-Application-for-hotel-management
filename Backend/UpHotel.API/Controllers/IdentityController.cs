@@ -26,7 +26,7 @@ namespace UpHotel.API.Controllers
 
         [HttpPost("user")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddOrUpdateUser(AddOrUpdateUserViewModel model)
+        public async Task<IActionResult> AddOrUpdateUser(AddOrUpdateUserCommand model)
         {
             await _identityService.AddOrUpdateUser(model);
             return Ok();

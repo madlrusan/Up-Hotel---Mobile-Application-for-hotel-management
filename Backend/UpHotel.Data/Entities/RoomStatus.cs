@@ -7,8 +7,6 @@ namespace UpHotel.Data.Entities
         NeedCleaning,
         DoneCleaning,
         InProgressOfCleaning,
-        CallingReception,
-        Occupied,
-        Empty
+        CallingReception
     }
 }
