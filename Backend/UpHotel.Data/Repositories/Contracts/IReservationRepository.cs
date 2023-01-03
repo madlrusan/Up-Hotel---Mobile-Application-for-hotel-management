@@ -12,6 +12,6 @@ namespace UpHotel.Data.Repositories.Contracts
         Task AddReservationAsync(RoomReservation reservation);
         Task SaveChangesAsync();
         Task<RoomReservation> GetReservationAsync(int reservationId);
-        Task<ICollection<RoomReservation>> GetReservationsAsync(bool skipInactive = true);
+        Task<ICollection<RoomReservation>> GetReservationsAsync(bool includeInactive = true);
     }
 }

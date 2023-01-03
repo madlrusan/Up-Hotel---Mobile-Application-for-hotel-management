@@ -102,7 +102,8 @@ namespace UpHotel.Business.Services
                     LastName = cmd.LastName,
                     Email = cmd.Email,
                     UserName = cmd.Email,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    PhoneNumber = cmd.PhoneNumber
                 };
 
                 var generatedPassword = GeneratePassword(16);

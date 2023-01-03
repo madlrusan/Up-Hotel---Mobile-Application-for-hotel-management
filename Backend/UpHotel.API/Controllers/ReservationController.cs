@@ -34,8 +34,7 @@ namespace UpHotel.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetReservations(bool includeInactive = false)
         {
-            await _reservationService.GetReservations(includeInactive);
-            return Ok();
+            return Ok(await _reservationService.GetReservations(includeInactive));
         } 
     }
 }

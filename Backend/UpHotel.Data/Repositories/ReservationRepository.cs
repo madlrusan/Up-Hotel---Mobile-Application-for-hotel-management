@@ -28,11 +28,11 @@ namespace UpHotel.Data.Repositories
         public async Task<RoomReservation> GetReservationAsync(int reservationId)
             => await _dbContext.RoomReservations.FirstOrDefaultAsync(p => p.Id == reservationId);
 
-        public async Task<ICollection<RoomReservation>> GetReservationsAsync(bool skipInactive = true)
+        public async Task<ICollection<RoomReservation>> GetReservationsAsync(bool includeInactive = true)
         {
-            var query = _dbContext.RoomReservations.Include(p => p.Room).AsQueryable();
+            var query = _dbContext.RoomReservations.Include(p => p.Room).Include(p => p.User).AsQueryable();
 
-            if (skipInactive)
+            if (!includeInactive)
                 query = query.Where(p => p.IsActive);
 
             return await query.ToListAsync();
