@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext, useState } from "react";
-import { Appbar, Button, DataTable, Dialog, Portal } from "react-native-paper";
+import { Appbar, DataTable, Button } from "react-native-paper";
 import { styles } from "./HouseKeeperStyles";
 import { Alert, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { rooms } from "../../constants/mock-data";
@@ -12,6 +12,9 @@ import { headerStyle } from "../../../AppStyles";
 export const HouseKeeper = () => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const userContext = useContext(UserContext);
+	const setStatus = (status: string) => {
+		console.log(status);
+	};
 	return (
 		<>
 			<LinearGradient
@@ -37,33 +40,22 @@ export const HouseKeeper = () => {
 							<ScrollView style={styles.tableContent}>
 								{rooms.map((room, key) =>{
 									return (
+										
 										<DataTable.Row key={key}>
 											<DataTable.Cell style={styles.roomText}>{room.number}</DataTable.Cell>
 											<DataTable.Cell style={styles.status}>{ColoredStatus(room.status)}</DataTable.Cell>
 											<DataTable.Cell style={styles.action}> 
-												{/* // IS NOT WOTKING PROPERLY THE MODAL HERE DUNNO WHY ?!  */}
-												{/* <Modal  
-													animationType="slide"
-													transparent={true}
-													visible={modalVisible}
-													onRequestClose={() => {
-														Alert.alert("Modal has been closed.");
-														setModalVisible(!modalVisible);
-													}}
-												>
-													<View>
-														<Pressable
-														
-															onPress={() => setModalVisible(!modalVisible)}
-														>
-															<Text>Hide Modal</Text>
-														</Pressable>
-													</View></Modal> */}
-												<Button icon="dots-vertical"  style={styles.actionButton} onPress={() => setModalVisible(true)} > 
-												</Button>
 												
+												{/* <Button icon="dots-vertical"  style={styles.actionButton} onPress={() => setModalVisible(true)} > 
+												</Button> */}
+												<View>
+													<Button icon="account-clock" style={styles.actionButton} onPress={() => setStatus("inProgressCleaning")}/>
+													<Button icon="check-circle" style={styles.actionButton} onPress={() => setStatus("doneCleaning")} />
+												</View>
 											</DataTable.Cell>
-										</DataTable.Row>);
+										</DataTable.Row>
+										
+									);
 								})}
 							</ScrollView>
 						</>

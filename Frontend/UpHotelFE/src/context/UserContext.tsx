@@ -2,6 +2,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { createContext, FC, useEffect, useState } from "react";
+import { getData } from "../constants/Storage";
 import { User } from "../Models/User";
 import { Login } from "../pages/Login/Login";
 import { UserAPI } from "./API/UserAPI";
@@ -10,9 +11,10 @@ type UserContextType = {
     user: User;
     login: any;
     logOut: any;
-    getUser: any;
-    setUser: any;
-    addUser: any;
+    getStaff: any;
+    addStaff: any;
+    // setUser: any;
+    // addUser: any;
 }
 
 export const UserContext  = createContext<UserContextType>(null);
@@ -28,67 +30,52 @@ export const UserProvider : FC = (props: {children}) => {
 		role : ""
 	});
 	const navigator = useNavigation();
-	useEffect(() => {
-		const fetch = async () => {
-			try {
-				getUser();
-			} catch (error) {
-				// @ts-ignore
-				navigator.navigate("Login");
-			}
-		};
-		fetch().then();
-	}, []);
-	useEffect(() => {
-		if (user?.id === -1) {
-			// @ts-ignore
-			navigator.navigate("Login");
-		// } else if (user?.usersToRoomId !== null) {
-		// 	// @ts-ignore
-		// 	navigator.navigate("Room", {
-		// 		usersToRoomId: user.usersToRoomId,
-		// 	});
-		// } else {
-		// 	// @ts-ignore
-		// 	navigator.navigate("Home");
-		}
-	}, [user]);
-	const getUser = async () => {
-		try {
-			const response = await userAPI.getUser();
-
-			setUser(response);
-		} catch (e) {
-			console.log(e);
-		}
-	};
 	const login = async (email: string, password: string) => {
 		const response = await userAPI.login(email, password);
-		if (response) {
-			setUser(await userAPI.getUser());
+		if (response !== false) {
+			const user = {email: response.email, role: response.role, name: response.name};
+			setUser(user);
+			if(user.role === "Admin") {
+				navigator.navigate("AdminDashboard", {});
+			}
 			// try {
 			// 	RoomContext.getRoom();
 			// } catch (error) {
 			// 	console.log(error);
 			// }
 		}
+		else {
+			console.log("response", response);
+		}
 	};
 	const logOut = () => {
 		const response = userAPI.logOut();
-		if (response) {
-			navigator.navigate(Login);
+		if (response !== false) {
+			navigator.navigate("Login", {});
 		}
 	};
-	const addUser = ()=> {
-		console.log("user added");
+	const addStaff = ()=> {
+		const response = await userAPI.addStaff();
+		if(response !== false) {
+			navigator.navigate("AdminDashboard", {});
+		}
+	};
+
+	const getStaff = () => {
+		const response = userAPI.getStaff();
+		if(response) {
+			return response;
+
+		}
 	};
 	const ctx: UserContextType = {
 		user: user,
 		login: (email: string, password: string) => login(email, password),
 		logOut: () => logOut(),
-		getUser: () => getUser(),
-		setUser: (newUser: User) => setUser(newUser),
-		addUser: () => addUser(),
+		getStaff: () => getStaff(),
+        addStaff: () => addStaff();
+		// setUser: (newUser: User) => setUser(newUser),
+		// addUser: () => addUser(),
 	};
 	return <UserContext.Provider value={ctx}>{props.children}</UserContext.Provider>;
 };
