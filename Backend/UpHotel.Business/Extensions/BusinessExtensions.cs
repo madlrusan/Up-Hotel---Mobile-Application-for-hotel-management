@@ -14,6 +14,7 @@ namespace UpHotel.Business.Extensions
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IEmailService, EmailService>();
             return services;
         }
     }

@@ -23,13 +23,15 @@ namespace UpHotel.Business.Services
         private readonly JwtOptions _jwtOptions;
         private readonly ILogger<IdentityService> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public IdentityService(UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwtOptions, 
-            ILogger<IdentityService> logger, RoleManager<IdentityRole> roleManager)
+        private readonly IEmailService _emailService;
+        public IdentityService(UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwtOptions,
+            ILogger<IdentityService> logger, RoleManager<IdentityRole> roleManager, IEmailService emailService)
         {
             _userManager = userManager;
             _jwtOptions = jwtOptions.Value;
             _logger = logger;
             _roleManager = roleManager;
+            _emailService = emailService;
         }
 
         public async Task<string> Login(LoginCommand model)
@@ -116,8 +118,13 @@ namespace UpHotel.Business.Services
 
                 var rolesResult = await _userManager.AddToRolesAsync(newUser, cmd.Roles);
 
-                // send email here
-                _logger.LogWarning($"Created user {cmd.Email} with password {generatedPassword}");
+                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+                    _logger.LogWarning($"Created user {cmd.Email} with password {generatedPassword}");
+                else
+                {
+                    await _emailService.SendEmailAsync(cmd.Email, "UpHotel account information", GetAccountInformationEmailBody(newUser, generatedPassword));
+                }
+
                 _logger.LogInformation($"Roles [{string.Join(", ", cmd.Roles)}] added to user {cmd.Email}");
 
                 return;
@@ -181,6 +188,12 @@ namespace UpHotel.Business.Services
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&?%$@";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[(new Random()).Next(s.Length)]).ToArray());
+        }
+
+        private string GetAccountInformationEmailBody(ApplicationUser user, string password)
+        {
+            return @$"<h2>Hello {user.FirstName + " " + user.LastName},</h2>
+                <p>Your password for the UpHotel account is: <b>{password}</b></p>";
         }
 
     }

@@ -48,6 +48,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddBusinessServices(builder.Configuration.GetConnectionString("UpHotel"));
 builder.Services.Configure<JwtOptions>(
         builder.Configuration.GetSection(nameof(JwtOptions)));
+builder.Services.Configure<SendgridOptions>(
+        builder.Configuration.GetSection(nameof(SendgridOptions)));
 var jwtOptions = new JwtOptions();
 builder.Configuration.Bind(nameof(jwtOptions), jwtOptions);
 builder.Services.AddAuthentication(x =>
