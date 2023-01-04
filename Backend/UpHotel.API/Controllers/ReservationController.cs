@@ -7,7 +7,7 @@ namespace UpHotel.API.Controllers
 {
     [ApiController]
     [Route("api/reservations")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Reception")]
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
