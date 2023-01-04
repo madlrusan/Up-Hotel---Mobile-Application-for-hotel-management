@@ -39,11 +39,11 @@ function RootNavigator() {
 						<Stack.Screen name="Login" component={Login} />
 						<Stack.Screen name="AdminDashboard" component={AdminDashboard} />
 						<Stack.Screen name="AddNewStaff" component={AddNewStaff} />
-						{/* <Stack.Screen name="ReceptionistDashboard" component={ReceptionistDashboard} />
+						<Stack.Screen name="ReceptionistDashboard" component={ReceptionistDashboard} />
 						<Stack.Screen name="CheckIn" component={CheckIn} />
-						<Stack.Screen name="CheckOut" component={CheckOut} /> */}
+						<Stack.Screen name="CheckOut" component={CheckOut} />
 						<Stack.Screen name="HouseKeeper" component={HouseKeeper} />
-						{/* <Stack.Screen name="Room" component={Room} /> */}
+						<Stack.Screen name="Room" component={Room} />
 					</Stack.Navigator>
 				</>
 			</UserProvider>

@@ -38,6 +38,15 @@ export const UserProvider : FC = (props: {children}) => {
 			if(user.role === "Admin") {
 				navigator.navigate("AdminDashboard", {});
 			}
+			else if(user.role === "Housekeeping") {
+				navigator.navigate("Housekeeper", {});
+			}
+			else if(user.role === "Room") {
+				navigator.navigate("Room", {});
+			}
+			else if(user.role === "Reception") {
+				navigator.navigate("ReceptionistDashboard", {});
+			}
 			// try {
 			// 	RoomContext.getRoom();
 			// } catch (error) {
@@ -55,17 +64,15 @@ export const UserProvider : FC = (props: {children}) => {
 		}
 	};
 	const addStaff = ()=> {
-		const response = await userAPI.addStaff();
-		if(response !== false) {
-			navigator.navigate("AdminDashboard", {});
-		}
+		console.log("added staff");
 	};
 
-	const getStaff = () => {
-		const response = userAPI.getStaff();
-		if(response) {
-			return response;
-
+	const getStaff = async () => {
+		const response = await userAPI.getStaff();
+		// console.log(response);
+		if(response !== null) {
+			
+			return await response;
 		}
 	};
 	const ctx: UserContextType = {
@@ -73,7 +80,7 @@ export const UserProvider : FC = (props: {children}) => {
 		login: (email: string, password: string) => login(email, password),
 		logOut: () => logOut(),
 		getStaff: () => getStaff(),
-        addStaff: () => addStaff();
+		addStaff: () => addStaff(),
 		// setUser: (newUser: User) => setUser(newUser),
 		// addUser: () => addUser(),
 	};

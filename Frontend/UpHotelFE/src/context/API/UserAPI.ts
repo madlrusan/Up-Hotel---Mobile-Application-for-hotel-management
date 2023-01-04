@@ -85,26 +85,35 @@ export class UserAPI {
 			},
 		});
 		const content = await response.json();
+		console.log(content);
 		if (content.status === 401) {
 			throw "Unauthorized";
 		}
-		return content;
+		return await content;
 	};  
 
-	addStaff = async () => {
+	addStaff = async (firstName: string, lastName: string, email: string, phoneNumber: string, roles: string[]) => {
 		const response = await fetch(this.baseUrl + this._endpoints.addStaff, {
-			method: "post",
+			method: "POST",
 			credentials: "include",
-			headers:{
+			headers: {
 				"Content-Type": "application/json",
-				Authorization: "Bearer " + (await getData("token")),
-			}
-		});
-		const content = await response.json();
-		if (content.status === 401) {
-			throw "Unauthorized";
+			},
+			body: JSON.stringify({ firstName, lastName, email, phoneNumber, roles }),
+		}).then();
+		if (response.status === 200) {
+			// const content = await response.json();
+			return true;
+		} else {
+			const content = await response.json();
+
+			showMessage({
+				message: content.message,
+				type: "warning",
+			});
+			console.log(content);
+			return false;
 		}
-		return content;
 	};
 
 }

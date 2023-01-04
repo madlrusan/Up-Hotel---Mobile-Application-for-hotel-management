@@ -13,11 +13,11 @@ export const AddNewStaff = () => {
 	const navigator = useNavigation();
 	const [value, setValue] = useState("");
 	const [state, setState] = useState<AddNewStaffState>({
-		AddNewStaffCredentialsCredentials: { name: "", email: "", position: 0 },
+		AddNewStaffCredentialsCredentials: { firstName: "", lastName: "", email: "", position: 0 },
 		isSubmitted: true,
 	});
 	useEffect(()=> {
-		if(state.AddNewStaffCredentialsCredentials.name !== "" && state.AddNewStaffCredentialsCredentials.email !== ""){
+		if(state.AddNewStaffCredentialsCredentials.firstName !== "" && state.AddNewStaffCredentialsCredentials.email !== "" && state.AddNewStaffCredentialsCredentials.lastName !== "" ){
 			setState((prevState) => {
 				return { ...prevState, isSubmitted: false };
 			});
@@ -32,7 +32,8 @@ export const AddNewStaff = () => {
 			return { ...prevState, isSubmitted: true };
 		});
 		context.login(
-			state.AddNewStaffCredentialsCredentials.name,
+			state.AddNewStaffCredentialsCredentials.firstName,
+            state.AddNewStaffCredentialsCredentials.lastName,
 			state.AddNewStaffCredentialsCredentials.email,
 			state.AddNewStaffCredentialsCredentials.position
 		);
@@ -58,16 +59,18 @@ export const AddNewStaff = () => {
 				<View style={styles.cardBox}>
 					<Text style={formStyles.formHeader}>Add new staff member</Text>
 					<Text style={formStyles.formSubHeader}>For adding a new receptionist or housekeeper, please complete the following form</Text>
+                    <View style={formStyles.NamesBox}>
 					<TextInput
-						label="Name"
-						value={state.AddNewStaffCredentialsCredentials.name}
+						label="First Name"
+						value={state.AddNewStaffCredentialsCredentials.firstName}
 						mode="outlined"
 						onChangeText={(text: string) => 
 							setState((prevState) => {
 								return {
 									...prevState,
 									AddNewStaffCredentialsCredentials: {
-										name: text,
+										firstName: text,
+                                        lastName: prevState.AddNewStaffCredentialsCredentials.lastName,
 										email: prevState.AddNewStaffCredentialsCredentials.email,
 										position: prevState.AddNewStaffCredentialsCredentials.position
 									},
@@ -76,6 +79,26 @@ export const AddNewStaff = () => {
 						style={formStyles.formBox}
 						keyboardType="default"
 					/>
+                    <TextInput
+						label="Last Name"
+						value={state.AddNewStaffCredentialsCredentials.lastName}
+						mode="outlined"
+						onChangeText={(text: string) => 
+							setState((prevState) => {
+								return {
+									...prevState,
+									AddNewStaffCredentialsCredentials: {
+										firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
+                                        lastName: text,
+										email: prevState.AddNewStaffCredentialsCredentials.email,
+										position: prevState.AddNewStaffCredentialsCredentials.position
+									},
+								};
+							})}
+						style={formStyles.formBox}
+						keyboardType="default"
+					/>
+                    </View>
 					<TextInput
 						label="Email address"
 						value={state.AddNewStaffCredentialsCredentials.email}
@@ -85,7 +108,8 @@ export const AddNewStaff = () => {
 								return {
 									...prevState,
 									AddNewStaffCredentialsCredentials: {
-										name: prevState.AddNewStaffCredentialsCredentials.name,
+                                        firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
+										lastName: prevState.AddNewStaffCredentialsCredentials.lastName,
 										email: text,
 										position: prevState.AddNewStaffCredentialsCredentials.position
 									},
@@ -114,7 +138,8 @@ export const AddNewStaff = () => {
 };
 
 type AddNewStaffCredentialsType = {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     position: PositionType;
 };

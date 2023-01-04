@@ -41,6 +41,7 @@ export const formStyles = StyleSheet.create({
 		// textAlign: "left",
 		marginBottom: 0,
 		marginTop: 5,
+
 	},
 	formRedirectionText: {
 		color: "rgb(46,49,146)",
@@ -99,5 +100,10 @@ export const headerStyle = StyleSheet.create({
 		// left: 0,
 		// right: 20,
 	},
+    NamesBox: {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "nowrap",
+    }
 
 });
