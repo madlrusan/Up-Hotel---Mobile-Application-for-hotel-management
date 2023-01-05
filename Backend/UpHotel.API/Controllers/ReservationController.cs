@@ -31,10 +31,10 @@ namespace UpHotel.API.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetReservations(bool includeInactive = false)
-        {
-            return Ok(await _reservationService.GetReservations(includeInactive));
-        } 
+        //[HttpGet]
+        //public async Task<IActionResult> GetReservations(bool includeInactive = false)
+        //{
+        //    return Ok(await _reservationService.GetReservations(includeInactive));
+        //} 
     }
 }
