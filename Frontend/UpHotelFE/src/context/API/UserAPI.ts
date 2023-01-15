@@ -57,7 +57,10 @@ export class UserAPI {
 		}
 	};
 	logOut = () => {
+		// AsyncStorage.removeItem("token");
 		AsyncStorage.removeItem("token");
+		AsyncStorage.removeItem("userName");
+		AsyncStorage.removeItem("user_role");
 		showMessage({
 			message: "Logout Successful",
 			type: "success",

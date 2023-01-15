@@ -28,11 +28,15 @@ export const AdminDashboard = () => {
 		navigator.navigate("AddNewStaff", {});
 	};
 	const [list, setList] = useState<AdminDashBoardUsers[]>([]);
-
-	useEffect(async () =>{
+	const onLogOut = () => {
+		userContext.logOut();
+	};
+	async function e() { 
 		const staffList : AdminDashBoardUsers[]= await userContext.getStaff();
 		setList(staffList?.map(item => {return item;}));
-		return true;
+	}
+	useEffect(() =>{
+		e();
 	},[userContext]);
 	return (
 		<>
@@ -69,7 +73,7 @@ export const AdminDashboard = () => {
 						</>
 					</DataTable>
 					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={userContext.logOut}>
+						<Button style={styles.Button} mode="contained" compact onPress={onLogOut}>
                             Log Out
 						</Button>
 						<Button style={styles.Button} mode="contained" compact onPress={OnAddNewStaff}>

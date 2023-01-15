@@ -71,9 +71,9 @@ export const UserProvider: FC = (props: { children }) => {
 	};
 	const logOut = () => {
 		const response = userAPI.logOut();
-		if (response !== false) {
-			navigator.navigate("Login", {});
-		}
+		// if (response !== false) {
+		navigator.navigate("Login", {});
+		// }
 	};
 	const addStaff = async (
 		firstName: string,

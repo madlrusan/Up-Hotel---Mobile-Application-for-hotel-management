@@ -20,9 +20,7 @@ export const ReceptionistDashboard = () => {
 	const OnCheckOut = () => {
 		navigator.navigate(CheckOut);
 	};
-	const onLogOut = () => {
-		userContext.logOut();
-	};
+	
 	const [list, setList] = useState<RoomDashboard[]>([]);
 	async function e () {
 		const roomList : RoomDashboard[] = await userContext.getRooms();

@@ -35,6 +35,9 @@ export const HouseKeeper = () => {
 		setBackgroundName(userName);
 	};
 	getUserName();
+	const onLogOut = () => {
+		userContext.logOut();
+	};
 	return (
 		<>
 			<LinearGradient
@@ -78,7 +81,7 @@ export const HouseKeeper = () => {
 						</>
 					</DataTable>
 					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={userContext.logOut}>
+						<Button style={styles.Button} mode="contained" compact onPress={onLogOut}>
                             Log Out
 						</Button>
 					</View>

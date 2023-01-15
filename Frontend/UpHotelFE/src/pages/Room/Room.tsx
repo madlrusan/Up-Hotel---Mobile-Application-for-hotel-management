@@ -9,10 +9,13 @@ import { RoomStatus } from "../../Models/types";
 
 export const Room = () => {
 	const userContext = useContext(UserContext);
-	const changeStatus = (status: RoomStatus) => {
-		userContext.changeRoomStatus(status);
+	const changeStatus = (id: number, status: RoomStatus) => {
+		userContext.changeRoomStatus(id, status);
 	};
-    
+	const id= 1;
+	const onLogOut = () => {
+		userContext.logOut();
+	};
 	return (
 		<>
 			<LinearGradient
@@ -48,7 +51,7 @@ export const Room = () => {
 							mode="elevated"
 							style={styles.OptionButton}
 							onPress={() => {
-								changeStatus(RoomStatus.DoNotDisturb);
+								changeStatus(id, RoomStatus.DoNotDisturb);
 							}}
 						>
 							<Image
@@ -60,7 +63,7 @@ export const Room = () => {
 							mode="elevated"
 							style={styles.OptionButton}
 							onPress={() => {
-								changeStatus(RoomStatus.NeedCleaning);
+								changeStatus(id, RoomStatus.NeedCleaning);
 							}}
 						>
 							<Image
@@ -74,7 +77,7 @@ export const Room = () => {
 							mode="elevated"
 							style={styles.OptionButton}
 							onPress={() => {
-								changeStatus(RoomStatus.CallingReception);
+								changeStatus(id, RoomStatus.CallingReception);
 							}}
 						>
 							<Image
@@ -88,7 +91,7 @@ export const Room = () => {
 							style={styles.Button}
 							mode="contained"
 							compact
-							onPress={userContext.logOut}
+							onPress={onLogOut}
 						>
               Log Out
 						</Button>
@@ -97,7 +100,7 @@ export const Room = () => {
 							mode="contained"
 							compact
 							onPress={() => {
-								changeStatus(RoomStatus.Occupied);
+								changeStatus(id, RoomStatus.Occupied);
 							}}
 						>
               Cancel Option

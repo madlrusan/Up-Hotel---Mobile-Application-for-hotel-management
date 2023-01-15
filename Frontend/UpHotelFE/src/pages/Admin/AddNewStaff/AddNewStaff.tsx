@@ -40,6 +40,7 @@ export const AddNewStaff = () => {
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: false };
 		});
+		navigator.navigate("AdminDashboard",{});
 	};
 	return (
 
