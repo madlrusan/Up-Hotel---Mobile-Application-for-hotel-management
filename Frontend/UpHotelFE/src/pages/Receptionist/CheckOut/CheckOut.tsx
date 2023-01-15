@@ -6,6 +6,7 @@ import { Appbar, Button, TextInput } from "react-native-paper";
 import { formStyles } from "../../../../AppStyles";
 import { UserContext } from "../../../context/UserContext";
 import { styles } from "./CheckOutStyles";
+import { getData } from "../../../constants/Storage";
 
 export const CheckOut = () => {
 	const [state, setState] = useState<CheckOutCredentialsState>({
@@ -54,6 +55,12 @@ export const CheckOut = () => {
 		});
 		navigator.goBack();
 	};
+	const [backgroundName, setBackgroundName] = useState("");
+	const getUserName = async () => {
+		const  userName = await getData("userName");
+		setBackgroundName(userName);
+	};
+	getUserName();
 	return (
 		<>
 			<LinearGradient
@@ -72,7 +79,7 @@ export const CheckOut = () => {
 						style={styles.headerLogo}
 					/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception Mary Jane </Text>
+				<Text style={styles.logoText}> Reception {backgroundName}</Text>
 				<View style={styles.cardBox}>
 					<Text style={formStyles.formHeader}>Check OUT in progress...</Text>
 					<TextInput

@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ColoredStatus } from "../../../utils/helperFunctions";
 import { helperStyles } from "../../../utils/helperStyles";
 import { RoomDashboard } from "../../../constants/model";
+import { getData } from "../../../constants/Storage";
 export const ReceptionistDashboard = () => {
 	const userContext = useContext(UserContext);
 	const navigator = useNavigation();
@@ -23,11 +24,19 @@ export const ReceptionistDashboard = () => {
 		userContext.logOut();
 	};
 	const [list, setList] = useState<RoomDashboard[]>([]);
-	useEffect(async ()=>{
-		const roomList: RoomDashboard[] = await userContext.getRooms();
+	async function e () {
+		const roomList : RoomDashboard[] = await userContext.getRooms();
 		setList(roomList?.map(item => {return item;}));
-		return true;
+	}
+	useEffect(()=>{
+		e();
 	}, [userContext]);
+	const [backgroundName, setBackgroundName] = useState("");
+	const getUserName = async () => {
+		const  userName = await getData("userName");
+		setBackgroundName(userName);
+	};
+	getUserName();
 	return (
 		<>
 			<LinearGradient
@@ -41,7 +50,7 @@ export const ReceptionistDashboard = () => {
 					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
 					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception {localStorage.getItem("userName")} </Text>
+				<Text style={styles.logoText}> Reception {backgroundName} </Text>
 				<View style={styles.cardBox}>
 					<DataTable>
 						<>

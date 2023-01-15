@@ -40,6 +40,12 @@ export const CheckIn = () => {
 		});
 		navigator.goBack();
 	};
+	const [backgroundName, setBackgroundName] = useState("");
+	const getUserName = async () => {
+		const  userName = await getData("userName");
+		setBackgroundName(userName);
+	};
+	getUserName();
 	return (
 		<>
 			<LinearGradient
@@ -53,7 +59,7 @@ export const CheckIn = () => {
 					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText} />
 					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo} />
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception Mary Jane </Text>
+				<Text style={styles.logoText}> Reception {backgroundName}</Text>
 				<View style={styles.cardBox}>
 					<Text style={formStyles.formHeader}>Check IN New Guests</Text>
 					<TextInput
@@ -111,7 +117,7 @@ export const CheckIn = () => {
 					/>
 					<TextInput
 						label="Room No"
-						value={state.CheckInGuestCredentials.room}
+						value={state.CheckInGuestCredentials.room.toString()}
 						mode="outlined"
 						onChangeText={(number: string) => 
 							setState((prevState) => {
