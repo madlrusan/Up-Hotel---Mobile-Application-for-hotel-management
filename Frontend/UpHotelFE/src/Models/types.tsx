@@ -17,6 +17,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 export enum RoomStatus {
   DoNotDisturb,
   NeedCleaning,
+  DoneCleaning,
   InProgressOfCleaning,
   CallingReception,
   Occupied,

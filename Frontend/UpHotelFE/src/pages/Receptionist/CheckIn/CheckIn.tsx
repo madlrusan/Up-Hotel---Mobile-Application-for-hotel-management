@@ -6,6 +6,7 @@ import { Appbar, Button, TextInput } from "react-native-paper";
 import { formStyles } from "../../../../AppStyles";
 import { UserContext } from "../../../context/UserContext";
 import { styles } from "./CheckInStyles";
+import { getData } from "../../../constants/Storage";
 
 export const CheckIn = () => {
 	const context = useContext(UserContext);
@@ -38,7 +39,7 @@ export const CheckIn = () => {
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: false };
 		});
-		navigator.goBack();
+		navigator.navigate("ReceptionistDashboard", {});
 	};
 	const [backgroundName, setBackgroundName] = useState("");
 	const getUserName = async () => {
@@ -132,7 +133,7 @@ export const CheckIn = () => {
 								};
 							})}
 						style={formStyles.formBox}
-						keyboardType="number-pad"
+						keyboardType="numeric"
 					/>
 					<View style={styles.buttonContainer}>
 						<Button style={styles.Button} mode="contained" compact onPress={() => navigator.goBack()}>

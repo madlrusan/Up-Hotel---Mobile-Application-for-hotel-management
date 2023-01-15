@@ -53,7 +53,7 @@ export const CheckOut = () => {
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: false };
 		});
-		navigator.goBack();
+		navigator.navigate("ReceptionistDashboard", {});
 	};
 	const [backgroundName, setBackgroundName] = useState("");
 	const getUserName = async () => {

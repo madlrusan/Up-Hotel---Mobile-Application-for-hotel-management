@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Appbar, Button, DataTable } from "react-native-paper";
 import { styles } from "./ReceptionistDashboardStyles";
@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ColoredStatus } from "../../../utils/helperFunctions";
 import { helperStyles } from "../../../utils/helperStyles";
 import { RoomDashboard } from "../../../constants/model";
-import { getData } from "../../../constants/Storage";
+import { getData, storeData } from "../../../constants/Storage";
 export const ReceptionistDashboard = () => {
 	const userContext = useContext(UserContext);
 	const navigator = useNavigation();
@@ -26,11 +26,15 @@ export const ReceptionistDashboard = () => {
 	const [list, setList] = useState<RoomDashboard[]>([]);
 	async function e () {
 		const roomList : RoomDashboard[] = await userContext.getRooms();
+		setRefreshed(!refreshed);
+
 		setList(roomList?.map(item => {return item;}));
 	}
-	useEffect(()=>{
+	const [refreshed, setRefreshed] = useState<boolean>(false);
+	
+	useMemo(()=>{
 		e();
-	}, [userContext]);
+	}, [list]);
 	const [backgroundName, setBackgroundName] = useState("");
 	const getUserName = async () => {
 		const  userName = await getData("userName");
