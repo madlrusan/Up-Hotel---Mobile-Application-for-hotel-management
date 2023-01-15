@@ -31,19 +31,6 @@ export const AddNewStaff = () => {
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: true };
 		});
-		if(roleValue !== "") {
-			setState((prevState) => {
-				return {
-					...prevState,
-					AddNewStaffCredentialsCredentials: {
-						firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
-						lastName: prevState.AddNewStaffCredentialsCredentials.lastName,
-						email: prevState.AddNewStaffCredentialsCredentials.email,
-						role: roleValue
-					},
-				};
-			});}
-        
 		context.addStaff(
 			state.AddNewStaffCredentialsCredentials.firstName,
 			state.AddNewStaffCredentialsCredentials.lastName,
@@ -132,9 +119,21 @@ export const AddNewStaff = () => {
 						keyboardType="email-address"
 					/>
 					<Text style={styles.label}>Select position:</Text>
-					<RadioButton.Group onValueChange={value => setRoleValue(value)} value={roleValue}>
-						<RadioButton.Item label="Receptionist" value="Receptionist" />
-						<RadioButton.Item label="HouseKeeper" value="HouseKeeper" />
+					<RadioButton.Group onValueChange={value => {
+						setRoleValue(value);
+						setState((prevState) => {
+							return {
+								...prevState,
+								AddNewStaffCredentialsCredentials: {
+									firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
+									lastName: prevState.AddNewStaffCredentialsCredentials.lastName,
+									email: prevState.AddNewStaffCredentialsCredentials.email,
+									role: value
+								},
+							};
+						}); }} value={roleValue}>
+						<RadioButton.Item label="Receptionist" value="Reception"  />
+						<RadioButton.Item label="HouseKeeper" value="Housekeeping"  />
 					</RadioButton.Group>
 					<View style={styles.buttonContainer}>
 						<Button style={styles.Button} mode="contained" compact onPress={() => navigator.goBack()}>

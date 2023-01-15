@@ -65,8 +65,9 @@ export const UserProvider: FC = (props: { children }) => {
 			navigator.navigate("Login", {});
 		}
 	};
-	const addStaff = () => {
-		console.log("added staff");
+	const addStaff = async (firstName: string, lastName: string, email: string, role: string) => {
+		const response = await userAPI.addStaff(firstName, lastName, email, role);
+        return await response;
 	};
 
 	const getStaff = async () => {
@@ -85,7 +86,7 @@ export const UserProvider: FC = (props: { children }) => {
 		login: (email: string, password: string) => login(email, password),
 		logOut: () => logOut(),
 		getStaff: () => getStaff(),
-		addStaff: () => addStaff(),
+		addStaff: (firstName: string, lastName: string, email: string, role: string) => addStaff(firstName, lastName, email, role),
 		changeRoomStatus: (status: RoomStatus) => changeRoomStatus(status),
 		// setUser: (newUser: User) => setUser(newUser),
 		// addUser: () => addUser(),
