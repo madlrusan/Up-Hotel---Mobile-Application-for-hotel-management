@@ -95,6 +95,21 @@ export class UserAPI {
 		return await content;
 	};
 
+	getRooms = async () => {
+		const response = await fetch(this.baseUrl + this._endpoints.getRooms, {
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + (await getData("token")),
+			},
+		});
+		const content = await response.json();
+		console.log(content);
+		if (content.status === 401) {
+			throw "Unauthorized";
+		}
+		return await content;
+	};
 	addStaff = async (
 		firstName: string,
 		lastName: string,

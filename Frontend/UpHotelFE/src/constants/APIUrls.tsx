@@ -5,4 +5,5 @@ export const endpoint = {
 	getStaff: baseUrl + "/api/auth/staff",
 	//   register: baseUrl + "/api/authentication/user/register",
 	addStaff:  baseUrl + "/api/auth/user",
+	getRooms: baseUrl + "/api/rooms",
 };

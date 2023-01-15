@@ -1,13 +1,14 @@
 import React from "react";
 import { helperStyles } from "./helperStyles";
 import {Text} from "react-native";
-export const ColoredStatus = (status: string) => {
+import { RoomStatus } from "../Models/types";
+export const ColoredStatus = (status: RoomStatus) => {
 	switch (status) {
-	case "Do Not Disturb": return <Text style={helperStyles.dnd}>{status}</Text>;
-	case "Done Cleaning": return <Text style={helperStyles.dc}>{status}</Text>;
-	case "In Progress of Cleaning": return <Text style={helperStyles.ipc}>{status}</Text>;
-	case "Need Cleaning": return <Text style={helperStyles.nc}>{status}</Text>;
-	case "Calling Reception": return <Text style={helperStyles.cr}>{status}</Text>;
-	default: return <Text style={helperStyles.normal}>{status}</Text>;
+	case RoomStatus.DoNotDisturb: return <Text style={helperStyles.dnd}>Do Not Disturb</Text>;
+	case RoomStatus.InProgressOfCleaning: return <Text style={helperStyles.ipc}>In Progress of Cleaning</Text>;
+	case RoomStatus.NeedCleaning: return <Text style={helperStyles.nc}>Need Cleaning</Text>;
+	case RoomStatus.CallingReception: return <Text style={helperStyles.cr}>Calling Reception</Text>;
+	case RoomStatus.Empty:  return <Text style={helperStyles.normal}>Empty</Text>;
+	default: return <Text style={helperStyles.normal}>Occupied</Text>;
 	}
 };

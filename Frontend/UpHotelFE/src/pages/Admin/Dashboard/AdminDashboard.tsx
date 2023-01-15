@@ -34,7 +34,6 @@ export const AdminDashboard = () => {
 		setList(staffList?.map(item => {return item;}));
 		return true;
 	},[userContext]);
-	console.log("-----",list); 
 	return (
 		<>
 			<LinearGradient

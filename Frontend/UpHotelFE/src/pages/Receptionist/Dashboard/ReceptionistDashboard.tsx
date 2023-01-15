@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Appbar, Button, DataTable } from "react-native-paper";
 import { styles } from "./ReceptionistDashboardStyles";
@@ -10,6 +10,7 @@ import { CheckOut } from "../CheckOut/CheckOut";
 import { useNavigation } from "@react-navigation/native";
 import { ColoredStatus } from "../../../utils/helperFunctions";
 import { helperStyles } from "../../../utils/helperStyles";
+import { RoomDashboard } from "../../../constants/model";
 export const ReceptionistDashboard = () => {
 	const userContext = useContext(UserContext);
 	const navigator = useNavigation();
@@ -19,7 +20,12 @@ export const ReceptionistDashboard = () => {
 	const OnCheckOut = () => {
 		navigator.navigate(CheckOut);
 	};
-	
+	const [list, setList] = useState<RoomDashboard[]>([]);
+	useEffect(async ()=>{
+		const roomList: RoomDashboard[] = await userContext.getRooms();
+		setList(roomList?.map(item => {return item;}));
+		return true;
+	}, [userContext]);
 	return (
 		<>
 			<LinearGradient
@@ -42,10 +48,10 @@ export const ReceptionistDashboard = () => {
 								<DataTable.Title >Status</DataTable.Title>
 							</DataTable.Header>
 							<ScrollView style={styles.tableContent}>
-								{rooms.map((room, key) =>{
+								{list.map((room, key) =>{
 									return (
 										<DataTable.Row key={key}>
-											<DataTable.Cell>{room.number}</DataTable.Cell>
+											<DataTable.Cell>{room.roomName}</DataTable.Cell>
 											<DataTable.Cell>{ColoredStatus(room.status)}</DataTable.Cell>
 										</DataTable.Row>);
 								})}

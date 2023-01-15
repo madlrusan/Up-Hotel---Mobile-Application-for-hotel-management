@@ -21,6 +21,7 @@ type UserContextType = {
     emailAddress: string,
     roomId: number
   ) => void;
+  getRooms: any;
   // setUser: any;
   // addUser: any;
 };
@@ -83,6 +84,12 @@ export const UserProvider: FC = (props: { children }) => {
 			return await response;
 		}
 	};
+	const getRooms = async () => {
+		const response = await userAPI.getRooms();
+		if( response !== null ) {
+			return await response;
+		}
+	};
 	const changeRoomStatus = async (status: RoomStatus) => {
 		const response = await userAPI.changeRoomStatus(status);
 		return await response;
@@ -109,6 +116,7 @@ export const UserProvider: FC = (props: { children }) => {
 			emailAddress: string,
 			roomId: number
 		) => checkIn(firstName, lastName, emailAddress, roomId),
+		getRooms : () => getRooms(),
 		// setUser: (newUser: User) => setUser(newUser),
 		// addUser: () => addUser(),
 	};
