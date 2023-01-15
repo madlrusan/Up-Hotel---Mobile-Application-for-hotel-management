@@ -8,12 +8,12 @@ import { ColoredStatus } from "../../utils/helperFunctions";
 import { UserContext } from "../../context/UserContext";
 import Popover from "react-native-popover-view";
 import { headerStyle } from "../../../AppStyles";
+import { RoomStatus } from "../../Models/types";
 
 export const HouseKeeper = () => {
-	const [modalVisible, setModalVisible] = useState(false);
 	const userContext = useContext(UserContext);
-	const setStatus = (status: string) => {
-		console.log(status);
+	const setStatus = (status: RoomStatus) => {
+		userContext.changeRoomStatus(status);
 	};
 	return (
 		<>
@@ -49,8 +49,8 @@ export const HouseKeeper = () => {
 												{/* <Button icon="dots-vertical"  style={styles.actionButton} onPress={() => setModalVisible(true)} > 
 												</Button> */}
 												<View>
-													<Button icon="account-clock" style={styles.actionButton} onPress={() => setStatus("inProgressCleaning")}/>
-													<Button icon="check-circle" style={styles.actionButton} onPress={() => setStatus("doneCleaning")} />
+													<Button icon="account-clock" style={styles.actionButton} onPress={() => setStatus(RoomStatus.InProgressOfCleaning)}/>
+													<Button icon="check-circle" style={styles.actionButton} onPress={() => setStatus(RoomStatus.Occupied)} />
 												</View>
 											</DataTable.Cell>
 										</DataTable.Row>

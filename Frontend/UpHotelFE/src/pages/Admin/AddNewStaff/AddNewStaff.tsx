@@ -11,9 +11,9 @@ import { useNavigation } from "@react-navigation/native";
 export const AddNewStaff = () => {
 	const context = useContext(UserContext);
 	const navigator = useNavigation();
-	const [value, setValue] = useState("");
+	const [roleValue, setRoleValue] = useState("");
 	const [state, setState] = useState<AddNewStaffState>({
-		AddNewStaffCredentialsCredentials: { firstName: "", lastName: "", email: "", position: 0 },
+		AddNewStaffCredentialsCredentials: { firstName: "", lastName: "", email: "", role: "" },
 		isSubmitted: true,
 	});
 	useEffect(()=> {
@@ -31,11 +31,24 @@ export const AddNewStaff = () => {
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: true };
 		});
-		context.login(
+		if(roleValue !== "") {
+			setState((prevState) => {
+				return {
+					...prevState,
+					AddNewStaffCredentialsCredentials: {
+						firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
+						lastName: prevState.AddNewStaffCredentialsCredentials.lastName,
+						email: prevState.AddNewStaffCredentialsCredentials.email,
+						role: roleValue
+					},
+				};
+			});}
+        
+		context.addStaff(
 			state.AddNewStaffCredentialsCredentials.firstName,
-            state.AddNewStaffCredentialsCredentials.lastName,
+			state.AddNewStaffCredentialsCredentials.lastName,
 			state.AddNewStaffCredentialsCredentials.email,
-			state.AddNewStaffCredentialsCredentials.position
+			state.AddNewStaffCredentialsCredentials.role
 		);
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: false };
@@ -59,46 +72,46 @@ export const AddNewStaff = () => {
 				<View style={styles.cardBox}>
 					<Text style={formStyles.formHeader}>Add new staff member</Text>
 					<Text style={formStyles.formSubHeader}>For adding a new receptionist or housekeeper, please complete the following form</Text>
-                    <View style={formStyles.NamesBox}>
-					<TextInput
-						label="First Name"
-						value={state.AddNewStaffCredentialsCredentials.firstName}
-						mode="outlined"
-						onChangeText={(text: string) => 
-							setState((prevState) => {
-								return {
-									...prevState,
-									AddNewStaffCredentialsCredentials: {
-										firstName: text,
-                                        lastName: prevState.AddNewStaffCredentialsCredentials.lastName,
-										email: prevState.AddNewStaffCredentialsCredentials.email,
-										position: prevState.AddNewStaffCredentialsCredentials.position
-									},
-								};
-							})}
-						style={formStyles.formBox}
-						keyboardType="default"
-					/>
-                    <TextInput
-						label="Last Name"
-						value={state.AddNewStaffCredentialsCredentials.lastName}
-						mode="outlined"
-						onChangeText={(text: string) => 
-							setState((prevState) => {
-								return {
-									...prevState,
-									AddNewStaffCredentialsCredentials: {
-										firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
-                                        lastName: text,
-										email: prevState.AddNewStaffCredentialsCredentials.email,
-										position: prevState.AddNewStaffCredentialsCredentials.position
-									},
-								};
-							})}
-						style={formStyles.formBox}
-						keyboardType="default"
-					/>
-                    </View>
+					<View style={headerStyle.NamesBox}>
+						<TextInput
+							label="First Name"
+							value={state.AddNewStaffCredentialsCredentials.firstName}
+							mode="outlined"
+							onChangeText={(text: string) => 
+								setState((prevState) => {
+									return {
+										...prevState,
+										AddNewStaffCredentialsCredentials: {
+											firstName: text,
+											lastName: prevState.AddNewStaffCredentialsCredentials.lastName,
+											email: prevState.AddNewStaffCredentialsCredentials.email,
+											role: prevState.AddNewStaffCredentialsCredentials.role
+										},
+									};
+								})}
+							style={formStyles.formBox}
+							keyboardType="default"
+						/>
+						<TextInput
+							label="Last Name"
+							value={state.AddNewStaffCredentialsCredentials.lastName}
+							mode="outlined"
+							onChangeText={(text: string) => 
+								setState((prevState) => {
+									return {
+										...prevState,
+										AddNewStaffCredentialsCredentials: {
+											firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
+											lastName: text,
+											email: prevState.AddNewStaffCredentialsCredentials.email,
+											role: prevState.AddNewStaffCredentialsCredentials.role
+										},
+									};
+								})}
+							style={formStyles.formBox}
+							keyboardType="default"
+						/>
+					</View>
 					<TextInput
 						label="Email address"
 						value={state.AddNewStaffCredentialsCredentials.email}
@@ -108,10 +121,10 @@ export const AddNewStaff = () => {
 								return {
 									...prevState,
 									AddNewStaffCredentialsCredentials: {
-                                        firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
+										firstName: prevState.AddNewStaffCredentialsCredentials.firstName,
 										lastName: prevState.AddNewStaffCredentialsCredentials.lastName,
 										email: text,
-										position: prevState.AddNewStaffCredentialsCredentials.position
+										role: prevState.AddNewStaffCredentialsCredentials.role
 									},
 								};
 							})}
@@ -119,7 +132,7 @@ export const AddNewStaff = () => {
 						keyboardType="email-address"
 					/>
 					<Text style={styles.label}>Select position:</Text>
-					<RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+					<RadioButton.Group onValueChange={value => setRoleValue(value)} value={roleValue}>
 						<RadioButton.Item label="Receptionist" value="Receptionist" />
 						<RadioButton.Item label="HouseKeeper" value="HouseKeeper" />
 					</RadioButton.Group>
@@ -141,12 +154,9 @@ type AddNewStaffCredentialsType = {
     firstName: string;
     lastName: string;
     email: string;
-    position: PositionType;
+    role: string;
 };
-enum PositionType {
-"Receptionist",
-"HouseKeeper"
-}
+
 type AddNewStaffState = {
   AddNewStaffCredentialsCredentials: AddNewStaffCredentialsType;
   isSubmitted: boolean;

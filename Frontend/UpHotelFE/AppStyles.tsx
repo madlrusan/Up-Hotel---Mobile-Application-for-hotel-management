@@ -100,10 +100,10 @@ export const headerStyle = StyleSheet.create({
 		// left: 0,
 		// right: 20,
 	},
-    NamesBox: {
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "nowrap",
-    }
+	NamesBox: {
+		display: "flex",
+		flexDirection: "row",
+		flexWrap: "nowrap",
+	}
 
 });

@@ -3,6 +3,7 @@ import { showMessage } from "react-native-flash-message";
 import { baseUrl } from "../../constants/APIUrls";
 import { getData, storeData } from "../../constants/Storage";
 import jwt_decode from "jwt-decode";
+import { RoomStatus } from "../../Models/types";
 const parseJwt = (token) => {
 	try {
 		return jwt_decode(token);
@@ -11,7 +12,7 @@ const parseJwt = (token) => {
 	}
 };
 export class UserAPI {
-	baseUrl : string;
+	baseUrl: string;
 	_endpoints: Endpoints;
 
 	constructor() {
@@ -22,6 +23,7 @@ export class UserAPI {
 			getUser: "/api/auth/user",
 			getStaff: "/api/auth/staff",
 			addStaff: "/api/auth/user",
+			changeRoomStatus: "/api/rooms/status",
 		};
 	}
 	login = async (email: string, password: string) => {
@@ -90,20 +92,27 @@ export class UserAPI {
 			throw "Unauthorized";
 		}
 		return await content;
-	};  
+	};
 
-	addStaff = async (firstName: string, lastName: string, email: string, phoneNumber: string, roles: string[]) => {
+	addStaff = async (
+		firstName: string,
+		lastName: string,
+		email: string,
+		role: string
+	) => {
 		const response = await fetch(this.baseUrl + this._endpoints.addStaff, {
 			method: "POST",
 			credentials: "include",
 			headers: {
 				"Content-Type": "application/json",
+				Authorization: "Bearer " + (await getData("token")),
 			},
-			body: JSON.stringify({ firstName, lastName, email, phoneNumber, roles }),
+			body: JSON.stringify({ firstName, lastName, email, role }),
 		}).then();
 		if (response.status === 200) {
-			// const content = await response.json();
-			return true;
+			const content = await response.json();
+			const staff = parseJwt(content.token);
+			return staff;
 		} else {
 			const content = await response.json();
 
@@ -115,5 +124,29 @@ export class UserAPI {
 			return false;
 		}
 	};
-
+	changeRoomStatus = async (status: RoomStatus) => {
+		const roomId = 1; //insert room id here
+		const response = await fetch(
+			this.baseUrl + this._endpoints.changeRoomStatus,
+			{
+				method: "PUT",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + (await getData("token")),
+				},
+				body: JSON.stringify({ roomId, status }),
+			}
+		).then();
+		if (response.status === 200) {
+			return true;
+		} else {
+			const content = await response.json();
+			showMessage({
+				message: content.message,
+				type: "warning",
+			});
+			return false;
+		}
+	};
 }
