@@ -82,11 +82,17 @@ export const styles = StyleSheet.create({
 	roomText: {
 		marginLeft: 20,
 	},
-	actionButton: {
+	actionButton1: {
 		width: 200,
+		paddingRight: "5vh",
+		pointerEvents: "all"
+	},
+	actionButton2: {
+		width: 200,
+		paddingRight: "12vh",
 		pointerEvents: "all"
 	},
 	Buttons: {
-		backgroundColor: "red",
+		backgroundColor: "none",
 	}
 });

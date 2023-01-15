@@ -44,7 +44,7 @@ export class UserAPI {
 			await storeData("token", content.token);
 			const user = parseJwt(content.token);
 			await storeData("user_role", user.role);
-            await storeData("userName", user.name);
+			await storeData("userName", user.name);
 			return user;
 		} else {
 			const content = await response.json();
@@ -53,7 +53,6 @@ export class UserAPI {
 				message: content.message,
 				type: "warning",
 			});
-			console.log(content);
 			return false;
 		}
 	};
@@ -92,7 +91,6 @@ export class UserAPI {
 			},
 		});
 		const content = await response.json();
-		console.log(content);
 		if (content.status === 401) {
 			throw "Unauthorized";
 		}
@@ -107,7 +105,6 @@ export class UserAPI {
 			},
 		});
 		const content = await response.json();
-		console.log(content);
 		if (content.status === 401) {
 			throw "Unauthorized";
 		}
@@ -139,12 +136,11 @@ export class UserAPI {
 				message: content.message,
 				type: "warning",
 			});
-			console.log(content);
 			return false;
 		}
 	};
-	changeRoomStatus = async (status: RoomStatus) => {
-		const roomId = 1; //insert room id here
+	changeRoomStatus = async (id: number, status: RoomStatus) => {
+		const roomId = id; //insert room id here
 		const response = await fetch(
 			this.baseUrl + this._endpoints.changeRoomStatus,
 			{

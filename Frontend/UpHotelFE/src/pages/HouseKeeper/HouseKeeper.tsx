@@ -9,7 +9,7 @@ import Popover from "react-native-popover-view";
 import { headerStyle } from "../../../AppStyles";
 import { RoomStatus } from "../../Models/types";
 import { RoomDashboard } from "../../constants/model";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getData, getUserName, storeData } from "../../constants/Storage";
 
 
 export const HouseKeeper = () => {
@@ -21,15 +21,20 @@ export const HouseKeeper = () => {
 		const roomList : RoomDashboard[] = await userContext.getRooms();
 		setList(roomList?.map(item => {return item;}));
 	}
-	const setStatus = (status: RoomStatus) => {
-		userContext.changeRoomStatus(status);
+	const setStatus = (id: number, status: RoomStatus) => {
+		userContext.changeRoomStatus(id, status);
 		setRoomStatus(!roomStatus);
 		e();
 	};
 	useEffect(()=>{
 		e();
 	}, [userContext, roomStatus]);
-	
+	const [backgroundName, setBackgroundName] = useState("");
+	const getUserName = async () => {
+		const  userName = await getData("userName");
+		setBackgroundName(userName);
+	};
+	getUserName();
 	return (
 		<>
 			<LinearGradient
@@ -43,7 +48,7 @@ export const HouseKeeper = () => {
 					<Appbar.Content title="UpHotel" titleStyle={headerStyle.headerLogoText}/>
 					<Appbar.Action icon={require("../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Housekeeper {localStorage.getItem("userName")}</Text>
+				<Text style={styles.logoText}> Housekeeper {backgroundName}</Text>
 				<View style={styles.cardBox}>
 					<DataTable>
 						<>
@@ -61,8 +66,8 @@ export const HouseKeeper = () => {
 											<DataTable.Cell style={styles.status}>{ColoredStatus(room.status)}</DataTable.Cell>
 											<DataTable.Cell style={styles.action}> 
 												<View style={styles.Buttons} >
-												<Button icon="account-clock" style={styles.actionButton} mode="contained" onPress={() => setStatus(RoomStatus.InProgressOfCleaning)}> In progress...</Button>
-												<Button icon="check-circle" style={styles.actionButton} mode="contained"  onPress={() => setStatus(RoomStatus.Occupied)}>Done</Button>
+													<Button icon="account-clock" style={styles.actionButton1} mode="text" onPress={() => setStatus(room.id, RoomStatus.InProgressOfCleaning)}> In progress...</Button>
+													<Button icon="check-circle" style={styles.actionButton2} mode="text"  onPress={() => setStatus(room.id, RoomStatus.Occupied)}>Done</Button>
 												</View>
 											</DataTable.Cell>
 										</DataTable.Row>
@@ -84,3 +89,5 @@ export const HouseKeeper = () => {
 
 	);
 };
+
+

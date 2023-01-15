@@ -17,7 +17,7 @@ type UserContextType = {
 		lastName: string,
 		email: string,
 		role: string) => void;
-  changeRoomStatus: (status: RoomStatus) => void;
+  changeRoomStatus: (id: number, status: RoomStatus) => void;
   checkIn: (
     firstName: string,
     lastName: string,
@@ -87,7 +87,6 @@ export const UserProvider: FC = (props: { children }) => {
 
 	const getStaff = async () => {
 		const response = await userAPI.getStaff();
-		// console.log(response);
 		if (response !== null) {
 			return await response;
 		}
@@ -98,8 +97,8 @@ export const UserProvider: FC = (props: { children }) => {
 			return await response;
 		}
 	};
-	const changeRoomStatus = async (status: RoomStatus) => {
-		const response = await userAPI.changeRoomStatus(status);
+	const changeRoomStatus = async (id: number, status: RoomStatus) => {
+		const response = await userAPI.changeRoomStatus(id, status);
 		return await response;
 	};
 	const checkIn = async (
@@ -135,7 +134,7 @@ export const UserProvider: FC = (props: { children }) => {
 			email: string,
 			role: string
 		) => addStaff(firstName, lastName, email, role),
-		changeRoomStatus: (status: RoomStatus) => changeRoomStatus(status),
+		changeRoomStatus: (id: number, status: RoomStatus) => changeRoomStatus(id, status),
 		checkIn: (
 			firstName: string,
 			lastName: string,
