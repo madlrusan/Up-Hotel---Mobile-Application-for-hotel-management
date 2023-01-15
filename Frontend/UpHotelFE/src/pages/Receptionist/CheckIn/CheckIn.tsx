@@ -11,11 +11,11 @@ export const CheckIn = () => {
 	const context = useContext(UserContext);
 	const navigator = useNavigation();
 	const [state, setState] = useState<CheckInGuestState>({
-		CheckInGuestCredentials: { firstName: "", lastName: "", email: "", room: ""},
+		CheckInGuestCredentials: { firstName: "", lastName: "", emailAddress: "", room: 0},
 		isSubmitted: true,
 	});
 	useEffect(()=> {
-		if(state.CheckInGuestCredentials.firstName !== "" && state.CheckInGuestCredentials.email !== "" && state.CheckInGuestCredentials.lastName !== "" && state.CheckInGuestCredentials.room !== ""){
+		if(state.CheckInGuestCredentials.firstName !== "" && state.CheckInGuestCredentials.emailAddress !== "" && state.CheckInGuestCredentials.lastName !== "" && state.CheckInGuestCredentials.room !== ""){
 			setState((prevState) => {
 				return { ...prevState, isSubmitted: false };
 			});
@@ -29,15 +29,16 @@ export const CheckIn = () => {
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: true };
 		});
-		context.login(
+		context.checkIn(
 			state.CheckInGuestCredentials.firstName,
 			state.CheckInGuestCredentials.lastName,
-			state.CheckInGuestCredentials.email,
+			state.CheckInGuestCredentials.emailAddress,
 			state.CheckInGuestCredentials.room
 		);
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: false };
 		});
+		navigator.goBack();
 	};
 	return (
 		<>
@@ -65,7 +66,7 @@ export const CheckIn = () => {
 								CheckInGuestCredentials: {
 									firstName: text,
 									lastName: prevState.CheckInGuestCredentials.lastName,
-									email: prevState.CheckInGuestCredentials.email,
+									emailAddress: prevState.CheckInGuestCredentials.emailAddress,
 									room: prevState.CheckInGuestCredentials.room
 								},
 							};
@@ -82,7 +83,7 @@ export const CheckIn = () => {
 								CheckInGuestCredentials: {
 									firstName: prevState.CheckInGuestCredentials.firstName,
 									lastName: text,
-									email: prevState.CheckInGuestCredentials.email,
+									emailAddress: prevState.CheckInGuestCredentials.emailAddress,
 									room: prevState.CheckInGuestCredentials.room
 								},
 							};
@@ -91,16 +92,16 @@ export const CheckIn = () => {
 						keyboardType="default" />
 					<TextInput
 						label="Email address"
-						value={state.CheckInGuestCredentials.email}
+						value={state.CheckInGuestCredentials.emailAddress}
 						mode="outlined"
 						onChangeText={(text: string) => 
 							setState((prevState) => {
 								return {
 									...prevState,
 									CheckInGuestCredentials: {
-										firstName: prevState.CheckInGuestCredentials.lastName,
+										firstName: prevState.CheckInGuestCredentials.firstName,
 										lastName: prevState.CheckInGuestCredentials.lastName,
-										email: text,
+										emailAddress: text,
 										room: prevState.CheckInGuestCredentials.room
 									},
 								};
@@ -117,9 +118,9 @@ export const CheckIn = () => {
 								return {
 									...prevState,
 									CheckInGuestCredentials: {
-										firstName: prevState.CheckInGuestCredentials.lastName,
+										firstName: prevState.CheckInGuestCredentials.firstName,
 										lastName: prevState.CheckInGuestCredentials.lastName,
-										email: prevState.CheckInGuestCredentials.lastName,
+										emailAddress: prevState.CheckInGuestCredentials.emailAddress,
 										room: number,
 									},
 								};
@@ -142,8 +143,8 @@ export const CheckIn = () => {
 type CheckInGuestCredentialsType = {
     firstName: string;
     lastName: string;
-    email: string;
-    room: string;
+    emailAddress: string;
+    room: number;
 }
 
 type CheckInGuestState = { 

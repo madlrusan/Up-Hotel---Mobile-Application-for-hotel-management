@@ -24,6 +24,7 @@ export class UserAPI {
 			getStaff: "/api/auth/staff",
 			addStaff: "/api/auth/user",
 			changeRoomStatus: "/api/rooms/status",
+			checkIn: "api/reservations/checkin",
 		};
 	}
 	login = async (email: string, password: string) => {
@@ -149,4 +150,31 @@ export class UserAPI {
 			return false;
 		}
 	};
+	checkIn = async (
+		firstName: string,
+		lastName: string,
+		emailAddress: string,
+		roomId: number
+	) => {
+		const response = await fetch(this.baseUrl + this._endpoints.checkIn, {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + (await getData("token")),
+			},
+			body: JSON.stringify({ firstName, lastName, emailAddress, roomId }),
+		}).then();
+		if (response.status === 200) {
+			return true;
+		} else {
+			const content = await response.json();
+			showMessage({
+				message: content.message,
+				type: "warning",
+			});
+			return false;
+		}
+	};
 }
+
