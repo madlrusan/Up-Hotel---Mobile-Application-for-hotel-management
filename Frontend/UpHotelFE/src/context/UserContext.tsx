@@ -10,10 +10,13 @@ import { UserAPI } from "./API/UserAPI";
 axios.defaults.withCredentials = true;
 type UserContextType = {
   user: User;
-  login: any;
-  logOut: any;
-  getStaff: any;
-  addStaff: any;
+  login: (email: string, password: string) => void;
+  logOut: () => void;
+  getStaff: () => void;
+  addStaff: (firstName: string,
+		lastName: string,
+		email: string,
+		role: string) => void;
   changeRoomStatus: (status: RoomStatus) => void;
   checkIn: (
     firstName: string,
@@ -21,7 +24,9 @@ type UserContextType = {
     emailAddress: string,
     roomId: number
   ) => void;
-  getRooms: any;
+    getRooms: ()=> void;
+  getUserByRoomId: (roomId: number) => void;
+  checkOut: (roomId: number) => void;
   // setUser: any;
   // addUser: any;
 };
@@ -43,6 +48,9 @@ export const UserProvider: FC = (props: { children }) => {
 		const response = await userAPI.login(email, password);
 		if (response !== false) {
 			const user = {
+				id: response.id,
+				firstName: response.firstName,
+				lastName: response.lastName,
 				email: response.email,
 				role: response.role,
 				name: response.name,
@@ -51,17 +59,12 @@ export const UserProvider: FC = (props: { children }) => {
 			if (user.role === "Admin") {
 				navigator.navigate("AdminDashboard", {});
 			} else if (user.role === "Housekeeping") {
-				navigator.navigate("Housekeeper", {});
+				navigator.navigate("HouseKeeper", {});
 			} else if (user.role === "Room") {
 				navigator.navigate("Room", {});
 			} else if (user.role === "Reception") {
 				navigator.navigate("ReceptionistDashboard", {});
 			}
-			// try {
-			// 	RoomContext.getRoom();
-			// } catch (error) {
-			// 	console.log(error);
-			// }
 		} else {
 			console.log("response", response);
 		}
@@ -72,7 +75,12 @@ export const UserProvider: FC = (props: { children }) => {
 			navigator.navigate("Login", {});
 		}
 	};
-	const addStaff = async (firstName: string, lastName: string, email: string, role: string) => {
+	const addStaff = async (
+		firstName: string,
+		lastName: string,
+		email: string,
+		role: string
+	) => {
 		const response = await userAPI.addStaff(firstName, lastName, email, role);
 		return await response;
 	};
@@ -100,7 +108,20 @@ export const UserProvider: FC = (props: { children }) => {
 		emailAddress: string,
 		roomId: number
 	) => {
-		const response = await userAPI.checkIn(firstName, lastName, emailAddress, roomId);
+		const response = await userAPI.checkIn(
+			firstName,
+			lastName,
+			emailAddress,
+			roomId
+		);
+		return await response;
+	};
+	const getUserByRoomId = async (roomId: number) => {
+		const response = await userAPI.getUserByRoomId(roomId);
+		return await response;
+	};
+	const checkOut = async (roomId: number) => {
+		const response = await userAPI.checkOut(roomId);
 		return await response;
 	};
 	const ctx: UserContextType = {
@@ -108,7 +129,12 @@ export const UserProvider: FC = (props: { children }) => {
 		login: (email: string, password: string) => login(email, password),
 		logOut: () => logOut(),
 		getStaff: () => getStaff(),
-		addStaff: (firstName: string, lastName: string, email: string, role: string) => addStaff(firstName, lastName, email, role),
+		addStaff: (
+			firstName: string,
+			lastName: string,
+			email: string,
+			role: string
+		) => addStaff(firstName, lastName, email, role),
 		changeRoomStatus: (status: RoomStatus) => changeRoomStatus(status),
 		checkIn: (
 			firstName: string,
@@ -117,9 +143,12 @@ export const UserProvider: FC = (props: { children }) => {
 			roomId: number
 		) => checkIn(firstName, lastName, emailAddress, roomId),
 		getRooms : () => getRooms(),
+		checkOut: (roomId: number) => checkOut(roomId),
+		getUserByRoomId: (roomId: number) => getUserByRoomId(roomId),
 		// setUser: (newUser: User) => setUser(newUser),
 		// addUser: () => addUser(),
 	};
+	
 	return (
 		<UserContext.Provider value={ctx}>{props.children}</UserContext.Provider>
 	);

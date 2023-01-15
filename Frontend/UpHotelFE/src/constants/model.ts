@@ -8,7 +8,7 @@ export interface AdminDashBoardUsers  {
     role: string;
 }
 export interface RoomDashboard {
-    roomId: number;
-    roomName: string;
+    id: number;
+    name: string;
     status: RoomStatus;
 }

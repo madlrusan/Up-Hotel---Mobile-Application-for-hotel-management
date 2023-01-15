@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
 	},
 	action: {
 		display: "flex",
-		flexDirection: "row",
+		flexDirection: "column",
 		justifyContent: "space-between",
 		alignItems: "center",
 		// marginTop: 20,
@@ -70,6 +70,7 @@ export const styles = StyleSheet.create({
 		marginRight: -100,
 		width: 5,
 		// backgroundColor: "rgba(23, 255, 233,1)"
+		pointerEvents: "all"
 	},
 	status:{
 		marginLeft: -100,
@@ -82,6 +83,10 @@ export const styles = StyleSheet.create({
 		marginLeft: 20,
 	},
 	actionButton: {
-		width: 5,
+		width: 200,
+		pointerEvents: "all"
 	},
+	Buttons: {
+		backgroundColor: "red",
+	}
 });

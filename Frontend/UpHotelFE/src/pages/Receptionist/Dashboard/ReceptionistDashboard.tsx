@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Appbar, Button, DataTable } from "react-native-paper";
 import { styles } from "./ReceptionistDashboardStyles";
-import { rooms } from "../../../constants/mock-data";
 import { UserContext } from "../../../context/UserContext";
 import { CheckIn } from "../CheckIn/CheckIn";
 import { CheckOut } from "../CheckOut/CheckOut";
@@ -19,6 +18,9 @@ export const ReceptionistDashboard = () => {
 	};
 	const OnCheckOut = () => {
 		navigator.navigate(CheckOut);
+	};
+	const onLogOut = () => {
+		userContext.logOut();
 	};
 	const [list, setList] = useState<RoomDashboard[]>([]);
 	useEffect(async ()=>{
@@ -39,19 +41,21 @@ export const ReceptionistDashboard = () => {
 					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
 					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception Mary Jane </Text>
+				<Text style={styles.logoText}> Reception {localStorage.getItem("userName")} </Text>
 				<View style={styles.cardBox}>
 					<DataTable>
 						<>
 							<DataTable.Header>
-								<DataTable.Title>Room No.</DataTable.Title>
+								<DataTable.Title>Room Id</DataTable.Title>
+								<DataTable.Title>Room Name.</DataTable.Title>
 								<DataTable.Title >Status</DataTable.Title>
 							</DataTable.Header>
 							<ScrollView style={styles.tableContent}>
 								{list.map((room, key) =>{
 									return (
 										<DataTable.Row key={key}>
-											<DataTable.Cell>{room.roomName}</DataTable.Cell>
+											<DataTable.Cell>{room.id}</DataTable.Cell>
+											<DataTable.Cell>{room.name}</DataTable.Cell>
 											<DataTable.Cell>{ColoredStatus(room.status)}</DataTable.Cell>
 										</DataTable.Row>);
 								})}
@@ -59,7 +63,7 @@ export const ReceptionistDashboard = () => {
 						</>
 					</DataTable>
 					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={userContext.logOut}>
+						<Button style={styles.Button} mode="contained" compact onPress={onLogOut}>
                             Log Out
 						</Button>
 						<Button style={styles.Button} mode="contained" compact onPress={OnCheckIn}>

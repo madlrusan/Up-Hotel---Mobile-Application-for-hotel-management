@@ -104,6 +104,6 @@ export const headerStyle = StyleSheet.create({
 		display: "flex",
 		flexDirection: "row",
 		flexWrap: "nowrap",
-	}
-
+	},
+	
 });
