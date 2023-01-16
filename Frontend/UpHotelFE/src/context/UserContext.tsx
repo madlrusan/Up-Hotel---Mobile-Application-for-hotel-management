@@ -2,7 +2,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { createContext, FC, useEffect, useState } from "react";
-import { getData } from "../constants/Storage";
+import { getData, storeData } from "../constants/Storage";
 import { RoomStatus } from "../Models/types";
 import { User } from "../Models/User";
 import { Login } from "../pages/Login/Login";
@@ -17,7 +17,7 @@ type UserContextType = {
 		lastName: string,
 		email: string,
 		role: string) => void;
-  changeRoomStatus: (id: number, status: RoomStatus) => void;
+  changeRoomStatus: (id: number|string, status: RoomStatus) => void;
   checkIn: (
     firstName: string,
     lastName: string,
@@ -65,6 +65,10 @@ export const UserProvider: FC = (props: { children }) => {
 			} else if (user.role === "Reception") {
 				navigator.navigate("ReceptionistDashboard", {});
 			}
+			if(user.role === "Room") {
+				await storeData("roomName", response.roomName);
+				await storeData("roomId", response.roomId);
+			}
 		} else {
 			console.log("response", response);
 		}
@@ -97,7 +101,7 @@ export const UserProvider: FC = (props: { children }) => {
 			return await response;
 		}
 	};
-	const changeRoomStatus = async (id: number, status: RoomStatus) => {
+	const changeRoomStatus = async (id: number|string, status: RoomStatus) => {
 		const response = await userAPI.changeRoomStatus(id, status);
 		return await response;
 	};
@@ -134,7 +138,7 @@ export const UserProvider: FC = (props: { children }) => {
 			email: string,
 			role: string
 		) => addStaff(firstName, lastName, email, role),
-		changeRoomStatus: (id: number, status: RoomStatus) => changeRoomStatus(id, status),
+		changeRoomStatus: (id: number|string, status: RoomStatus) => changeRoomStatus(id, status),
 		checkIn: (
 			firstName: string,
 			lastName: string,

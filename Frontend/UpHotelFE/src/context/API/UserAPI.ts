@@ -142,7 +142,7 @@ export class UserAPI {
 			return false;
 		}
 	};
-	changeRoomStatus = async (id: number, status: RoomStatus) => {
+	changeRoomStatus = async (id: number|string, status: RoomStatus) => {
 		const roomId = id; //insert room id here
 		const response = await fetch(
 			this.baseUrl + this._endpoints.changeRoomStatus,

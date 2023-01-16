@@ -39,6 +39,9 @@ export const ReceptionistDashboard = () => {
 		setBackgroundName(userName);
 	};
 	getUserName();
+	const onLogOut = () => {
+		userContext.logOut();
+	};
 	return (
 		<>
 			<LinearGradient

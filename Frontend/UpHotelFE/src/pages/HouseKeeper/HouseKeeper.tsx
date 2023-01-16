@@ -9,7 +9,7 @@ import Popover from "react-native-popover-view";
 import { headerStyle } from "../../../AppStyles";
 import { RoomStatus } from "../../Models/types";
 import { RoomDashboard } from "../../constants/model";
-import { getData, getUserName, storeData } from "../../constants/Storage";
+import { getData, storeData } from "../../constants/Storage";
 
 
 export const HouseKeeper = () => {

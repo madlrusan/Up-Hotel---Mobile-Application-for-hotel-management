@@ -1,21 +1,39 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { Appbar, Button } from "react-native-paper";
-import { formStyles } from "../../../AppStyles";
+import { formStyles, headerStyle } from "../../../AppStyles";
 import { UserContext } from "../../context/UserContext";
 import { styles } from "./RoomStyles";
 import { RoomStatus } from "../../Models/types";
+import { getData } from "../../constants/Storage";
 
 export const Room = () => {
 	const userContext = useContext(UserContext);
-	const changeStatus = (id: number, status: RoomStatus) => {
+	const changeStatus = (id: number|string, status: RoomStatus) => {
 		userContext.changeRoomStatus(id, status);
 	};
-	const id= 1;
+	const [id, setId] = useState("");
+	const [backgroundName, setBackgroundName] = useState("");
+	const [guestName, setGuestName] = useState("");
 	const onLogOut = () => {
 		userContext.logOut();
 	};
+	const getId = async () =>{
+		const id = await getData("roomId");
+		setId(id);
+	};
+	const getUserName = async () => {
+		const  userName = await getData("userName");
+		setGuestName(userName);
+	};
+	const getRoomName = async () => {
+		const roomName = await getData("roomName");
+		setBackgroundName(roomName);
+	};
+	getUserName();
+	getRoomName();
+	getId();
 	return (
 		<>
 			<LinearGradient
@@ -25,18 +43,18 @@ export const Room = () => {
 				end={{ x: 0, y: 1 }}
 				style={styles.container}
 			>
-				<Appbar.Header mode="medium" style={styles.header}>
-					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText} />
+				<Appbar.Header mode="medium" style={headerStyle.header}>
+					<Appbar.Content title="UpHotel" titleStyle={headerStyle.headerLogoText} />
 					<Appbar.Action
 						icon={require("../../assets/Logo.png")}
 						color="rgba(222, 224, 150, 1)"
 						size={50}
-						style={styles.headerLogo}
+						style={headerStyle.headerLogo}
 					/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Room A212 </Text>
+				<Text style={styles.logoText}> Room {backgroundName}</Text>
 				<View style={styles.cardBox}>
-					<Text style={formStyles.formHeader}>Welcome Jane Doe!</Text>
+					<Text style={formStyles.formHeader}>Welcome {guestName}!</Text>
 					<Text>
             We hope you will enjoy your time while staying in our hotel! We made
             this app special for you!

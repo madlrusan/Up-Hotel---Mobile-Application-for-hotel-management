@@ -59,5 +59,14 @@ export const styles = StyleSheet.create({
 		marginTop: 20
 
 	},
+	logoText: {
+		color: "rgba(222, 224, 150, 0.35)",
+		alignItems : "center",
+		textAlign: "center",
+		fontSize: 70,
+		// marginTop: -60,
+		marginTop: Platform.OS === "ios" ? -60 : 50,
+		letterSpacing: 0.46,
+	},
 
 });
