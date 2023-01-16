@@ -52,6 +52,14 @@ builder.Services.Configure<SendgridOptions>(
         builder.Configuration.GetSection(nameof(SendgridOptions)));
 var jwtOptions = new JwtOptions();
 builder.Configuration.Bind(nameof(jwtOptions), jwtOptions);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy",
+                      policy =>
+                      {
+                          policy.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+                      });
+});
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -82,6 +90,8 @@ var app = builder.Build();
 //}
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 

@@ -35,7 +35,7 @@ namespace UpHotel.API.Controllers
         }
 
         [HttpPut("status")]
-        [Authorize(Roles = "Admin,Housekeeping,Reception")]
+        [Authorize]
         public async Task<IActionResult> UpdateRoomStatus(UpdateRoomStatusCommand cmd)
         {
             await _roomService.UpdateRoomStatus(cmd);
