@@ -1,12 +1,13 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { styles } from "./AdminDashbordStyles";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Appbar, Button, DataTable, Headline } from "react-native-paper";
 import { staffMembers } from "../../../constants/mock-data";
 import { useNavigation } from "@react-navigation/native";
 import { AddNewStaff } from "../AddNewStaff/AddNewStaff";
 import { UserContext } from "../../../context/UserContext";
+import { AdminDashBoardUsers } from "../../../constants/model";
 export const TableRow = (name: string, position: string) => {
 
 	return (
@@ -24,8 +25,19 @@ export const AdminDashboard = () => {
 	const [page, setPage] = useState<number>(0);
 	const navigator = useNavigation();
 	const OnAddNewStaff = () => {
-		navigator.navigate(AddNewStaff);
+		navigator.navigate("AddNewStaff", {});
 	};
+	const [list, setList] = useState<AdminDashBoardUsers[]>([]);
+	const onLogOut = () => {
+		userContext.logOut();
+	};
+	async function e() { 
+		const staffList : AdminDashBoardUsers[]= await userContext.getStaff();
+		setList(staffList?.map(item => {return item;}));
+	}
+	useEffect(() =>{
+		e();
+	},[userContext]);
 	return (
 		<>
 			<LinearGradient
@@ -49,18 +61,19 @@ export const AdminDashboard = () => {
 								<DataTable.Title >Job Position</DataTable.Title>
 							</DataTable.Header>
 							<ScrollView style={styles.tableContent}>
-								{staffMembers.map((member, key) =>{
-									return (
-										<DataTable.Row key={key}>
-											<DataTable.Cell>{member.name}</DataTable.Cell>
-											<DataTable.Cell>{member.position}</DataTable.Cell>
-										</DataTable.Row>);
-								})}
+								{list.map((member, _key) => {return (
+									
+									
+									<DataTable.Row key={`${member.email}${_key}`}>
+										<DataTable.Cell>{member.firstName} {member.lastName}</DataTable.Cell>
+										<DataTable.Cell>{member.role}</DataTable.Cell>
+									</DataTable.Row>);}
+								)}
 							</ScrollView>
 						</>
 					</DataTable>
 					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={userContext.logOut}>
+						<Button style={styles.Button} mode="contained" compact onPress={onLogOut}>
                             Log Out
 						</Button>
 						<Button style={styles.Button} mode="contained" compact onPress={OnAddNewStaff}>

@@ -1,7 +1,9 @@
-export const baseUrl = "https://localhost:7096";
+export const baseUrl = "https://uphotel2.azurewebsites.net/";
 export const endpoint = {
-	login: baseUrl + "/api/auth/",
-//   logOut: baseUrl + "/api/authentication/logout",
-//   getUser: baseUrl + "/api/User/get",
-//   register: baseUrl + "/api/authentication/user/register",
+	login: baseUrl + "/api/auth/login",
+	//   logOut: baseUrl + "/api/authentication/logout",
+	getStaff: baseUrl + "/api/auth/staff",
+	//   register: baseUrl + "/api/authentication/user/register",
+	addStaff:  baseUrl + "/api/auth/user",
+	getRooms: baseUrl + "/api/rooms",
 };

@@ -26,22 +26,18 @@ export const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginTop: 20
-
+		marginTop: 10,
+		// marginLeft: 110,
 	},
 	Button: {
 		// flex: 1,
-		// borderRadius: 5,
-		backgroundColor: "#34ds",
+		borderRadius: 5,
+		width: 100,
 	},
 	OptionButton: {
 		// flex: 1,
-		// borderRadius: 5,
-		color: "#34ds",
+		borderRadius: 5,
 		width: 150,
-		// width: Platform.OS === "ios" ? 150 : 150,
-		height: 90,
-		// backgroundColor: "#34ds",
 	},
 	Img:{
 		// height : 70,
@@ -58,6 +54,15 @@ export const styles = StyleSheet.create({
 		alignItems: "center",
 		marginTop: 20
 
+	},
+	logoText: {
+		color: "rgba(222, 224, 150, 0.35)",
+		alignItems : "center",
+		textAlign: "center",
+		fontSize: 70,
+		// marginTop: -60,
+		marginTop: Platform.OS === "ios" ? -60 : 50,
+		letterSpacing: 0.46,
 	},
 
 });

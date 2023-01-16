@@ -1,15 +1,16 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Appbar, Button, DataTable } from "react-native-paper";
 import { styles } from "./ReceptionistDashboardStyles";
-import { rooms } from "../../../constants/mock-data";
 import { UserContext } from "../../../context/UserContext";
 import { CheckIn } from "../CheckIn/CheckIn";
 import { CheckOut } from "../CheckOut/CheckOut";
 import { useNavigation } from "@react-navigation/native";
 import { ColoredStatus } from "../../../utils/helperFunctions";
 import { helperStyles } from "../../../utils/helperStyles";
+import { RoomDashboard } from "../../../constants/model";
+import { getData, storeData } from "../../../constants/Storage";
 export const ReceptionistDashboard = () => {
 	const userContext = useContext(UserContext);
 	const navigator = useNavigation();
@@ -20,6 +21,27 @@ export const ReceptionistDashboard = () => {
 		navigator.navigate(CheckOut);
 	};
 	
+	const [list, setList] = useState<RoomDashboard[]>([]);
+	async function e () {
+		const roomList : RoomDashboard[] = await userContext.getRooms();
+		setRefreshed(!refreshed);
+
+		setList(roomList?.map(item => {return item;}));
+	}
+	const [refreshed, setRefreshed] = useState<boolean>(false);
+	
+	useMemo(()=>{
+		e();
+	}, [list]);
+	const [backgroundName, setBackgroundName] = useState("");
+	const getUserName = async () => {
+		const  userName = await getData("userName");
+		setBackgroundName(userName);
+	};
+	getUserName();
+	const onLogOut = () => {
+		userContext.logOut();
+	};
 	return (
 		<>
 			<LinearGradient
@@ -33,19 +55,21 @@ export const ReceptionistDashboard = () => {
 					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
 					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception Mary Jane </Text>
+				<Text style={styles.logoText}> Reception {backgroundName} </Text>
 				<View style={styles.cardBox}>
 					<DataTable>
 						<>
 							<DataTable.Header>
-								<DataTable.Title>Room No.</DataTable.Title>
+								<DataTable.Title>Room Id</DataTable.Title>
+								<DataTable.Title>Room Name.</DataTable.Title>
 								<DataTable.Title >Status</DataTable.Title>
 							</DataTable.Header>
 							<ScrollView style={styles.tableContent}>
-								{rooms.map((room, key) =>{
+								{list.map((room, key) =>{
 									return (
 										<DataTable.Row key={key}>
-											<DataTable.Cell>{room.number}</DataTable.Cell>
+											<DataTable.Cell>{room.id}</DataTable.Cell>
+											<DataTable.Cell>{room.name}</DataTable.Cell>
 											<DataTable.Cell>{ColoredStatus(room.status)}</DataTable.Cell>
 										</DataTable.Row>);
 								})}
@@ -53,7 +77,7 @@ export const ReceptionistDashboard = () => {
 						</>
 					</DataTable>
 					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={userContext.logOut}>
+						<Button style={styles.Button} mode="contained" compact onPress={onLogOut}>
                             Log Out
 						</Button>
 						<Button style={styles.Button} mode="contained" compact onPress={OnCheckIn}>

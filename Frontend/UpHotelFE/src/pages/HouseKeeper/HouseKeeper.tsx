@@ -1,17 +1,43 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useContext, useState } from "react";
-import { Appbar, Button, DataTable, Dialog, Portal } from "react-native-paper";
+import React, { useContext, useEffect, useState } from "react";
+import { Appbar, DataTable, Button} from "react-native-paper";
 import { styles } from "./HouseKeeperStyles";
-import { Alert, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { rooms } from "../../constants/mock-data";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { ColoredStatus } from "../../utils/helperFunctions";
 import { UserContext } from "../../context/UserContext";
 import Popover from "react-native-popover-view";
 import { headerStyle } from "../../../AppStyles";
+import { RoomStatus } from "../../Models/types";
+import { RoomDashboard } from "../../constants/model";
+import { getData, storeData } from "../../constants/Storage";
+
 
 export const HouseKeeper = () => {
-	const [modalVisible, setModalVisible] = useState(false);
 	const userContext = useContext(UserContext);
+	
+	const [roomStatus, setRoomStatus] = useState<boolean>(false);
+	const [list, setList] = useState<RoomDashboard[]>([]);
+	async function e () {
+		const roomList : RoomDashboard[] = await userContext.getRooms();
+		setList(roomList?.map(item => {return item;}));
+	}
+	const setStatus = (id: number, status: RoomStatus) => {
+		userContext.changeRoomStatus(id, status);
+		setRoomStatus(!roomStatus);
+		e();
+	};
+	useEffect(()=>{
+		e();
+	}, [userContext, roomStatus]);
+	const [backgroundName, setBackgroundName] = useState("");
+	const getUserName = async () => {
+		const  userName = await getData("userName");
+		setBackgroundName(userName);
+	};
+	getUserName();
+	const onLogOut = () => {
+		userContext.logOut();
+	};
 	return (
 		<>
 			<LinearGradient
@@ -21,11 +47,11 @@ export const HouseKeeper = () => {
 				end={{x:0, y:1}}
 				style={styles.container}
 			>
-				<Appbar.Header mode="medium" style={styles.header}>
-					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
+				<Appbar.Header mode="medium" style={headerStyle.header}>
+					<Appbar.Content title="UpHotel" titleStyle={headerStyle.headerLogoText}/>
 					<Appbar.Action icon={require("../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Housekeeper Clary F</Text>
+				<Text style={styles.logoText}> Housekeeper {backgroundName}</Text>
 				<View style={styles.cardBox}>
 					<DataTable>
 						<>
@@ -35,41 +61,27 @@ export const HouseKeeper = () => {
 								<DataTable.Title style={styles.actionHeader} >#</DataTable.Title>
 							</DataTable.Header>
 							<ScrollView style={styles.tableContent}>
-								{rooms.map((room, key) =>{
+								{list.map((room, key) =>{
 									return (
+										
 										<DataTable.Row key={key}>
-											<DataTable.Cell style={styles.roomText}>{room.number}</DataTable.Cell>
+											<DataTable.Cell style={styles.roomText}>{room.name}</DataTable.Cell>
 											<DataTable.Cell style={styles.status}>{ColoredStatus(room.status)}</DataTable.Cell>
 											<DataTable.Cell style={styles.action}> 
-												{/* // IS NOT WOTKING PROPERLY THE MODAL HERE DUNNO WHY ?!  */}
-												{/* <Modal  
-													animationType="slide"
-													transparent={true}
-													visible={modalVisible}
-													onRequestClose={() => {
-														Alert.alert("Modal has been closed.");
-														setModalVisible(!modalVisible);
-													}}
-												>
-													<View>
-														<Pressable
-														
-															onPress={() => setModalVisible(!modalVisible)}
-														>
-															<Text>Hide Modal</Text>
-														</Pressable>
-													</View></Modal> */}
-												<Button icon="dots-vertical"  style={styles.actionButton} onPress={() => setModalVisible(true)} > 
-												</Button>
-												
+												<View style={styles.Buttons} >
+													<Button icon="account-clock" style={styles.actionButton1} mode="text" onPress={() => setStatus(room.id, RoomStatus.InProgressOfCleaning)}> In progress...</Button>
+													<Button icon="check-circle" style={styles.actionButton2} mode="text"  onPress={() => setStatus(room.id, RoomStatus.Occupied)}>Done</Button>
+												</View>
 											</DataTable.Cell>
-										</DataTable.Row>);
+										</DataTable.Row>
+										
+									);
 								})}
 							</ScrollView>
 						</>
 					</DataTable>
 					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={userContext.logOut}>
+						<Button style={styles.Button} mode="contained" compact onPress={onLogOut}>
                             Log Out
 						</Button>
 					</View>
@@ -80,3 +92,5 @@ export const HouseKeeper = () => {
 
 	);
 };
+
+

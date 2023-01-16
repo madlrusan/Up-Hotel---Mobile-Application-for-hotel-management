@@ -6,16 +6,17 @@ import { Appbar, Button, TextInput } from "react-native-paper";
 import { formStyles } from "../../../../AppStyles";
 import { UserContext } from "../../../context/UserContext";
 import { styles } from "./CheckInStyles";
+import { getData } from "../../../constants/Storage";
 
 export const CheckIn = () => {
 	const context = useContext(UserContext);
 	const navigator = useNavigation();
 	const [state, setState] = useState<CheckInGuestState>({
-		CheckInGuestCredentials: { firstName: "", lastName: "", email: "", room: ""},
+		CheckInGuestCredentials: { firstName: "", lastName: "", emailAddress: "", room: 0},
 		isSubmitted: true,
 	});
 	useEffect(()=> {
-		if(state.CheckInGuestCredentials.firstName !== "" && state.CheckInGuestCredentials.email !== "" && state.CheckInGuestCredentials.lastName !== "" && state.CheckInGuestCredentials.room !== ""){
+		if(state.CheckInGuestCredentials.firstName !== "" && state.CheckInGuestCredentials.emailAddress !== "" && state.CheckInGuestCredentials.lastName !== "" && state.CheckInGuestCredentials.room !== ""){
 			setState((prevState) => {
 				return { ...prevState, isSubmitted: false };
 			});
@@ -29,16 +30,23 @@ export const CheckIn = () => {
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: true };
 		});
-		context.login(
+		context.checkIn(
 			state.CheckInGuestCredentials.firstName,
 			state.CheckInGuestCredentials.lastName,
-			state.CheckInGuestCredentials.email,
+			state.CheckInGuestCredentials.emailAddress,
 			state.CheckInGuestCredentials.room
 		);
 		setState((prevState) => {
 			return { ...prevState, isSubmitted: false };
 		});
+		navigator.navigate("ReceptionistDashboard", {});
 	};
+	const [backgroundName, setBackgroundName] = useState("");
+	const getUserName = async () => {
+		const  userName = await getData("userName");
+		setBackgroundName(userName);
+	};
+	getUserName();
 	return (
 		<>
 			<LinearGradient
@@ -52,7 +60,7 @@ export const CheckIn = () => {
 					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText} />
 					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo} />
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception Mary Jane </Text>
+				<Text style={styles.logoText}> Reception {backgroundName}</Text>
 				<View style={styles.cardBox}>
 					<Text style={formStyles.formHeader}>Check IN New Guests</Text>
 					<TextInput
@@ -65,7 +73,7 @@ export const CheckIn = () => {
 								CheckInGuestCredentials: {
 									firstName: text,
 									lastName: prevState.CheckInGuestCredentials.lastName,
-									email: prevState.CheckInGuestCredentials.email,
+									emailAddress: prevState.CheckInGuestCredentials.emailAddress,
 									room: prevState.CheckInGuestCredentials.room
 								},
 							};
@@ -82,7 +90,7 @@ export const CheckIn = () => {
 								CheckInGuestCredentials: {
 									firstName: prevState.CheckInGuestCredentials.firstName,
 									lastName: text,
-									email: prevState.CheckInGuestCredentials.email,
+									emailAddress: prevState.CheckInGuestCredentials.emailAddress,
 									room: prevState.CheckInGuestCredentials.room
 								},
 							};
@@ -91,16 +99,16 @@ export const CheckIn = () => {
 						keyboardType="default" />
 					<TextInput
 						label="Email address"
-						value={state.CheckInGuestCredentials.email}
+						value={state.CheckInGuestCredentials.emailAddress}
 						mode="outlined"
 						onChangeText={(text: string) => 
 							setState((prevState) => {
 								return {
 									...prevState,
 									CheckInGuestCredentials: {
-										firstName: prevState.CheckInGuestCredentials.lastName,
+										firstName: prevState.CheckInGuestCredentials.firstName,
 										lastName: prevState.CheckInGuestCredentials.lastName,
-										email: text,
+										emailAddress: text,
 										room: prevState.CheckInGuestCredentials.room
 									},
 								};
@@ -110,22 +118,22 @@ export const CheckIn = () => {
 					/>
 					<TextInput
 						label="Room No"
-						value={state.CheckInGuestCredentials.room}
+						value={state.CheckInGuestCredentials.room.toString()}
 						mode="outlined"
 						onChangeText={(number: string) => 
 							setState((prevState) => {
 								return {
 									...prevState,
 									CheckInGuestCredentials: {
-										firstName: prevState.CheckInGuestCredentials.lastName,
+										firstName: prevState.CheckInGuestCredentials.firstName,
 										lastName: prevState.CheckInGuestCredentials.lastName,
-										email: prevState.CheckInGuestCredentials.lastName,
+										emailAddress: prevState.CheckInGuestCredentials.emailAddress,
 										room: number,
 									},
 								};
 							})}
 						style={formStyles.formBox}
-						keyboardType="number-pad"
+						keyboardType="numeric"
 					/>
 					<View style={styles.buttonContainer}>
 						<Button style={styles.Button} mode="contained" compact onPress={() => navigator.goBack()}>
@@ -142,8 +150,8 @@ export const CheckIn = () => {
 type CheckInGuestCredentialsType = {
     firstName: string;
     lastName: string;
-    email: string;
-    room: string;
+    emailAddress: string;
+    room: number;
 }
 
 type CheckInGuestState = { 

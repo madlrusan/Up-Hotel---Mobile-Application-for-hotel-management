@@ -11,17 +11,17 @@ export const styles = StyleSheet.create({
 		alignItems : "center",
 		textAlign: "center",
 		fontSize: 80,
-		marginTop: 20,
+		marginTop: 0,
 		letterSpacing: 0.46,
 	},
 	cardBox: {
 		width: (Dimensions.get("window").width * 8) / 10,
 		height:
-      Platform.OS === "ios" ? (Dimensions.get("window").height * 6) / 12 + 25 : (Dimensions.get("window").height * 7) / 12,
+      Platform.OS === "ios" ? (Dimensions.get("window").height * 7) / 12 + 25 : (Dimensions.get("window").height * 8) / 12,
 		backgroundColor: "#fff",
 		borderRadius: 20,
 		padding: 16,
-		marginTop: 10,
+		marginTop: 0,
 		marginLeft: 40,
 		marginRight: 40
 	},
