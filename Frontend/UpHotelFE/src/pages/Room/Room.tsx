@@ -114,7 +114,7 @@ export const Room = () => {
               Log Out
 						</Button>
 						<Button
-							style={styles.Button}
+							style={styles.OptionButton}
 							mode="contained"
 							compact
 							onPress={() => {
