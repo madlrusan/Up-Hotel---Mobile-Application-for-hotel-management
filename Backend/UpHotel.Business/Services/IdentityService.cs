@@ -14,6 +14,7 @@ using UpHotel.Business.Exceptions;
 using UpHotel.Business.Options;
 using UpHotel.Business.ViewModels;
 using UpHotel.Data.Entities;
+using UpHotel.Data.Repositories.Contracts;
 
 namespace UpHotel.Business.Services
 {
@@ -24,14 +25,16 @@ namespace UpHotel.Business.Services
         private readonly ILogger<IdentityService> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
+        private readonly IRoomRepository _roomRepository;
         public IdentityService(UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwtOptions,
-            ILogger<IdentityService> logger, RoleManager<IdentityRole> roleManager, IEmailService emailService)
+            ILogger<IdentityService> logger, RoleManager<IdentityRole> roleManager, IEmailService emailService, IRoomRepository roomRepository)
         {
             _userManager = userManager;
             _jwtOptions = jwtOptions.Value;
             _logger = logger;
             _roleManager = roleManager;
             _emailService = emailService;
+            _roomRepository = roomRepository;
         }
 
         public async Task<string> Login(LoginCommand model)
@@ -63,6 +66,15 @@ namespace UpHotel.Business.Services
                 };
             foreach (var role in roles)
                 claims.Add(new Claim(ClaimTypes.Role, role));
+
+            var room = await _roomRepository.GetRoomByUserId(user.Id);
+
+            if (room != null)
+            {
+                claims.Add(new Claim("roomName", room.Name));
+                claims.Add(new Claim("roomId", room.Id.ToString()));
+            }
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
