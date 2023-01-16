@@ -18,12 +18,17 @@ namespace UpHotel.Data.Repositories
 
         public async Task<Room> GetRoomAsync(int id)
         {
-            return await _dbContext.Rooms.FirstOrDefaultAsync(p => p.Id == id);
+            return await _dbContext.Rooms.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<Room> GetRoomByUserId(string userId)
+        {
+            return await _dbContext.Rooms.FirstOrDefaultAsync(p => p.UserId == userId);
         }
 
         public async Task<List<Room>> GetRoomsAsync()
         {
-           return await _dbContext.Rooms.ToListAsync();
+           return await _dbContext.Rooms.Include(p => p.User).ToListAsync();
         }
 
         public async Task SaveChangesAsync()
