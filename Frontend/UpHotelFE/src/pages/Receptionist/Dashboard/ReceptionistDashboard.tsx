@@ -7,7 +7,7 @@ import { UserContext } from "../../../context/UserContext";
 import { CheckIn } from "../CheckIn/CheckIn";
 import { CheckOut } from "../CheckOut/CheckOut";
 import { useNavigation } from "@react-navigation/native";
-import { ColoredStatus } from "../../../utils/helperFunctions";
+import { ColoredStatus, getInitials } from "../../../utils/helperFunctions";
 import { helperStyles } from "../../../utils/helperStyles";
 import { RoomDashboard } from "../../../constants/model";
 import { getData, storeData } from "../../../constants/Storage";
@@ -15,10 +15,10 @@ export const ReceptionistDashboard = () => {
 	const userContext = useContext(UserContext);
 	const navigator = useNavigation();
 	const OnCheckIn = () => {
-		navigator.navigate(CheckIn);
+		navigator.navigate("CheckIn",{});
 	};
 	const OnCheckOut = () => {
-		navigator.navigate(CheckOut);
+		navigator.navigate("CheckOut",{});
 	};
 	
 	const [list, setList] = useState<RoomDashboard[]>([]);
@@ -55,7 +55,7 @@ export const ReceptionistDashboard = () => {
 					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
 					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception {backgroundName} </Text>
+				<Text style={styles.logoText}> Reception {getInitials(backgroundName)} </Text>
 				<View style={styles.cardBox}>
 					<DataTable>
 						<>

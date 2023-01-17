@@ -42,7 +42,7 @@ export class UserAPI {
 		if (response.status === 200) {
 			const content = await response.json();
 			await storeData("token", content.token);
-			const user = parseJwt(content.token);
+			const user:any = parseJwt(content.token);
 			await storeData("user_role", user.role);
 			await storeData("userName", user.name);
 			return user;

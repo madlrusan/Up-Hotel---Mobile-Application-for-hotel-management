@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Appbar, DataTable, Button} from "react-native-paper";
 import { styles } from "./HouseKeeperStyles";
 import { Platform, ScrollView, Text, View } from "react-native";
-import { ColoredStatus } from "../../utils/helperFunctions";
+import { ColoredStatus, getInitials } from "../../utils/helperFunctions";
 import { UserContext } from "../../context/UserContext";
 import Popover from "react-native-popover-view";
 import { headerStyle } from "../../../AppStyles";
@@ -51,7 +51,8 @@ export const HouseKeeper = () => {
 					<Appbar.Content title="UpHotel" titleStyle={headerStyle.headerLogoText}/>
 					<Appbar.Action icon={require("../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Housekeeper {backgroundName}</Text>
+				<Text style={styles.logoText}> Housekeeper {getInitials(backgroundName)}</Text>
+
 				<View style={styles.cardBox}>
 					<DataTable>
 						<>
