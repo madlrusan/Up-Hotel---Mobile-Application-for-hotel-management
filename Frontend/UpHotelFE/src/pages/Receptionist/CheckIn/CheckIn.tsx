@@ -7,6 +7,7 @@ import { formStyles } from "../../../../AppStyles";
 import { UserContext } from "../../../context/UserContext";
 import { styles } from "./CheckInStyles";
 import { getData } from "../../../constants/Storage";
+import { getInitials } from "../../../utils/helperFunctions";
 
 export const CheckIn = () => {
 	const context = useContext(UserContext);
@@ -16,7 +17,7 @@ export const CheckIn = () => {
 		isSubmitted: true,
 	});
 	useEffect(()=> {
-		if(state.CheckInGuestCredentials.firstName !== "" && state.CheckInGuestCredentials.emailAddress !== "" && state.CheckInGuestCredentials.lastName !== "" && state.CheckInGuestCredentials.room !== ""){
+		if(state.CheckInGuestCredentials.firstName !== "" && state.CheckInGuestCredentials.emailAddress !== "" && state.CheckInGuestCredentials.lastName !== ""){
 			setState((prevState) => {
 				return { ...prevState, isSubmitted: false };
 			});
@@ -60,7 +61,7 @@ export const CheckIn = () => {
 					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText} />
 					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo} />
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception {backgroundName}</Text>
+				<Text style={styles.logoText}> Reception {getInitials(backgroundName)}</Text>
 				<View style={styles.cardBox}>
 					<Text style={formStyles.formHeader}>Check IN New Guests</Text>
 					<TextInput
@@ -128,7 +129,7 @@ export const CheckIn = () => {
 										firstName: prevState.CheckInGuestCredentials.firstName,
 										lastName: prevState.CheckInGuestCredentials.lastName,
 										emailAddress: prevState.CheckInGuestCredentials.emailAddress,
-										room: number,
+										room: parseInt(number),
 									},
 								};
 							})}

@@ -7,6 +7,7 @@ import { formStyles } from "../../../../AppStyles";
 import { UserContext } from "../../../context/UserContext";
 import { styles } from "./CheckOutStyles";
 import { getData } from "../../../constants/Storage";
+import { getInitials } from "../../../utils/helperFunctions";
 
 export const CheckOut = () => {
 	const [state, setState] = useState<CheckOutCredentialsState>({
@@ -30,12 +31,12 @@ export const CheckOut = () => {
 		}
 	};
 	useEffect(() => {
-		if(state.CheckOutCredentials.roomId !== 0 && !isNaN(state.CheckOutCredentials.roomId) && state.CheckOutCredentials.roomId !== "") getUser();
+		if(state.CheckOutCredentials.roomId !== 0 && !isNaN(state.CheckOutCredentials.roomId)) getUser();
 	}, [state.CheckOutCredentials.roomId]);
 	const navigator = useNavigation();
 
 	useEffect(() => {
-		if (state.CheckOutCredentials.room !== "") {
+		if (state.CheckOutCredentials.roomId.toString() !== "") {
 			setState((prevState) => {
 				return { ...prevState, isSubmitted: false };
 			});
@@ -79,18 +80,20 @@ export const CheckOut = () => {
 						style={styles.headerLogo}
 					/>
 				</Appbar.Header>
-				<Text style={styles.logoText}> Reception {backgroundName}</Text>
+				<Text style={styles.logoText}> Reception {getInitials(backgroundName)}</Text>
 				<View style={styles.cardBox}>
 					<Text style={formStyles.formHeader}>Check OUT in progress...</Text>
 					<TextInput
 						label="Room No"
 						mode="outlined"
-						onChangeText={(number: number) =>
+						onChangeText={(number: string) =>
 							setState((prevState) => {
 								return {
 									...prevState,
 									CheckOutCredentials: {
-										roomId: number,
+										fullName: prevState.CheckOutCredentials.fullName,
+										email: prevState.CheckOutCredentials.email,
+										roomId: parseInt(number),
 									},
 								};
 							})
@@ -140,7 +143,10 @@ export const CheckOut = () => {
 };
 
 type CheckOutCredentialsType = {
-  room: string;
+  roomId: number;
+  fullName: string;
+  email: string;
+
 };
 
 type CheckOutCredentialsState = {

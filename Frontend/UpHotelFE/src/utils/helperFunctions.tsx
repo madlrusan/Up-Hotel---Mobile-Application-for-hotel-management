@@ -13,3 +13,14 @@ export const ColoredStatus = (status: RoomStatus) => {
 	default: return <Text style={helperStyles.normal}>Occupied</Text>;
 	}
 };
+
+export const getInitials = (name: string)  => {
+	const names = name.split(" ");
+	let initials = "";
+	for(name in names) {
+		const initial = names[name].charAt(0).toUpperCase();
+		initials = initials + `${initial}`;
+	}
+	return initials;
+
+};

@@ -7,6 +7,7 @@ import { RoomStatus } from "../Models/types";
 import { User } from "../Models/User";
 import { Login } from "../pages/Login/Login";
 import { UserAPI } from "./API/UserAPI";
+import { RoomDashboard } from "../constants/model";
 axios.defaults.withCredentials = true;
 type UserContextType = {
   user: User;
@@ -22,11 +23,11 @@ type UserContextType = {
     firstName: string,
     lastName: string,
     emailAddress: string,
-    roomId: number
+    roomId: number|string
   ) => void;
-    getRooms: ()=> void;
-  getUserByRoomId: (roomId: number) => void;
-  checkOut: (roomId: number) => void;
+    getRooms: ()=> Promise<RoomDashboard[]>;
+  getUserByRoomId: (roomId: number|string) => void;
+  checkOut: (roomId: number|string) => void;
   // setUser: any;
   // addUser: any;
 };
@@ -90,7 +91,7 @@ export const UserProvider: FC = (props: { children }) => {
 	};
 
 	const getStaff = async () => {
-		const response = await userAPI.getStaff();
+		const response: any = await userAPI.getStaff();
 		if (response !== null) {
 			return await response;
 		}
@@ -120,7 +121,7 @@ export const UserProvider: FC = (props: { children }) => {
 		return await response;
 	};
 	const getUserByRoomId = async (roomId: number) => {
-		const response = await userAPI.getUserByRoomId(roomId);
+		const response: any = await userAPI.getUserByRoomId(roomId);
 		return await response;
 	};
 	const checkOut = async (roomId: number) => {
