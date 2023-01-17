@@ -8,6 +8,6 @@ namespace UpHotel.Business.Commands
 {
     public class CheckoutCommand
     {
-        public int ReservationId { get; set; }
+        public int RoomId { get; set; }
     }
 }

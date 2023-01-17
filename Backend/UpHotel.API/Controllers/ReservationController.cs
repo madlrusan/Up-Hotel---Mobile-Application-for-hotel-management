@@ -7,7 +7,7 @@ namespace UpHotel.API.Controllers
 {
     [ApiController]
     [Route("api/reservations")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Reception")]
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
@@ -31,10 +31,10 @@ namespace UpHotel.API.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetReservations(bool includeInactive = false)
-        {
-            return Ok(await _reservationService.GetReservations(includeInactive));
-        } 
+        //[HttpGet]
+        //public async Task<IActionResult> GetReservations(bool includeInactive = false)
+        //{
+        //    return Ok(await _reservationService.GetReservations(includeInactive));
+        //} 
     }
 }

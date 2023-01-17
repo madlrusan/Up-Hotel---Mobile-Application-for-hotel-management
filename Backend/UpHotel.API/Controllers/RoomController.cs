@@ -17,14 +17,14 @@ namespace UpHotel.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Housekeeping")]
+        [Authorize(Roles = "Admin,Housekeeping,Reception")]
         public async Task<IActionResult> GetRoomsStatus()
         {
             return Ok(await _roomService.GetRoomsStatus());
         }
 
         [HttpGet("{roomId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin,Housekeeping,Reception")]
         public async Task<IActionResult> GetRoomsStatus(int roomId)
         {
             var room = await _roomService.GetRoomStatus(roomId);
@@ -35,7 +35,7 @@ namespace UpHotel.API.Controllers
         }
 
         [HttpPut("status")]
-        [Authorize(Roles = "Admin,Housekeeping")]
+        [Authorize(Roles = "Admin,Housekeeping,Reception")]
         public async Task<IActionResult> UpdateRoomStatus(UpdateRoomStatusCommand cmd)
         {
             await _roomService.UpdateRoomStatus(cmd);

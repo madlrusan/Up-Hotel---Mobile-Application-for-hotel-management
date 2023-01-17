@@ -9,6 +9,7 @@ import { styles } from "./CheckOutStyles";
 import { getData } from "../../../constants/Storage";
 import { getInitials } from "../../../utils/helperFunctions";
 
+
 export const CheckOut = () => {
 	const [state, setState] = useState<CheckOutCredentialsState>({
 		CheckOutCredentials: { roomId: 0, fullName: "", email: "" },
@@ -146,9 +147,7 @@ type CheckOutCredentialsType = {
   roomId: number;
   fullName: string;
   email: string;
-
-};
-
+}
 type CheckOutCredentialsState = {
   CheckOutCredentials: CheckOutCredentialsType;
   isSubmitted: boolean;

@@ -28,6 +28,7 @@ type UserContextType = {
     getRooms: ()=> Promise<RoomDashboard[]>;
   getUserByRoomId: (roomId: number|string) => void;
   checkOut: (roomId: number|string) => void;
+
   // setUser: any;
   // addUser: any;
 };
@@ -92,6 +93,7 @@ export const UserProvider: FC = (props: { children }) => {
 
 	const getStaff = async () => {
 		const response: any = await userAPI.getStaff();
+
 		if (response !== null) {
 			return await response;
 		}
@@ -122,6 +124,7 @@ export const UserProvider: FC = (props: { children }) => {
 	};
 	const getUserByRoomId = async (roomId: number) => {
 		const response: any = await userAPI.getUserByRoomId(roomId);
+
 		return await response;
 	};
 	const checkOut = async (roomId: number) => {
@@ -155,5 +158,6 @@ export const UserProvider: FC = (props: { children }) => {
 	
 	return (
 		<UserContext.Provider value={ctx}>{props.children}</UserContext.Provider>
-	);
+);
 };
+

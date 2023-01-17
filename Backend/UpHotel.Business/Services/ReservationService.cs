@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using UpHotel.Business.Commands;
 using UpHotel.Business.Contracts;
 using UpHotel.Business.Exceptions;
@@ -25,9 +27,6 @@ namespace UpHotel.Business.Services
 
         public async Task CheckIn(CheckInCommand cmd)
         {
-            if (cmd.StartDate < DateTime.Now) throw new ValidationException("Cannot create a reservation with a past start date!");
-            if (cmd.EndDate < DateTime.Now) throw new ValidationException("Cannot create a reservation with a past end date!");
-
             if (cmd.RoomId <= 0) throw new ValidationException("Invalid room id!");
 
             var room = await _roomRepository.GetRoomAsync(cmd.RoomId);
@@ -38,27 +37,28 @@ namespace UpHotel.Business.Services
                 Email = cmd.EmailAddress,
                 FirstName = cmd.FirstName,
                 LastName = cmd.LastName,
-                PhoneNumber = cmd.PhoneNumber,
-                Roles = new List<string>() { "Room" }
+                Role = "Room"
             };
 
             await _identityService.AddOrUpdateUser(userCreationCmd);
 
             var user = await _userManager.FindByEmailAsync(cmd.EmailAddress);
 
-            var reservation = new RoomReservation() { IsActive = true, RoomId = cmd.RoomId, UserId = user.Id, StartDate = cmd.StartDate, EndDate = cmd.EndDate };
+            room.RoomStatus = RoomStatus.Occupied;
+            room.UserId = user.Id;
 
-            await _reservationRepository.AddReservationAsync(reservation);
+            await _roomRepository.SaveChangesAsync();
         }
 
         public async Task CheckOut(CheckoutCommand cmd)
         {
-            var reservation = await _reservationRepository.GetReservationAsync(cmd.ReservationId);
+            var room = await _roomRepository.GetRoomAsync(cmd.RoomId);
 
-            if (reservation == null) throw new ValidationException("Invalid reservation id!");
+            if (room == null) throw new ValidationException("Invalid room id!");
 
-            reservation.IsActive = false;
-            await _reservationRepository.SaveChangesAsync();
+            room.RoomStatus = RoomStatus.Empty;
+            room.UserId = null;
+            await _roomRepository.SaveChangesAsync();
         }
 
         public async Task<ICollection<RoomReservationViewModel>> GetReservations(bool includeInactive = false)
@@ -81,8 +81,7 @@ namespace UpHotel.Business.Services
                     FirstName = reservation.User.FirstName,
                     LastName = reservation.User.LastName, 
                     Email = reservation.User.Email, 
-                    Role = "Room", 
-                    PhoneNumber = reservation.User.PhoneNumber 
+                    Role = "Room"
                 },
             };
         }

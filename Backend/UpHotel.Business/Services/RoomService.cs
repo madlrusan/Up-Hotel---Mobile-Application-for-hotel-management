@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UpHotel.Business.Commands;
+﻿using UpHotel.Business.Commands;
 using UpHotel.Business.Contracts;
 using UpHotel.Business.Exceptions;
 using UpHotel.Business.ViewModels;
@@ -55,7 +50,12 @@ namespace UpHotel.Business.Services
 
         private RoomViewModel MapToViewModel(Room room)
         {
-            return new RoomViewModel() { Id = room.Id, Name = room.Name , Status = room.RoomStatus};
+            return new RoomViewModel() { 
+                Id = room.Id, 
+                Name = room.Name , 
+                Status = room.RoomStatus,
+                User = room.User is null ? null : new UserViewModel() { Email = room.User.Email, FirstName = room.User.FirstName, LastName = room.User.LastName, Role = "Reception" },
+            };
         }
     }
 }

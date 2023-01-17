@@ -52,6 +52,7 @@ export const HouseKeeper = () => {
 					<Appbar.Action icon={require("../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
 				</Appbar.Header>
 				<Text style={styles.logoText}> Housekeeper {getInitials(backgroundName)}</Text>
+
 				<View style={styles.cardBox}>
 					<DataTable>
 						<>

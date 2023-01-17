@@ -9,6 +9,7 @@ import { styles } from "./CheckInStyles";
 import { getData } from "../../../constants/Storage";
 import { getInitials } from "../../../utils/helperFunctions";
 
+
 export const CheckIn = () => {
 	const context = useContext(UserContext);
 	const navigator = useNavigation();
