@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
 	},
 	statusCell:{
 		marginLeft: -50,
+        maxWidth: 80
 	},
 	actionHeader: {
 		marginRight: "-80%",
@@ -27,12 +28,12 @@ export const styles = StyleSheet.create({
 	},
 	actionButton1: {
 		width: 200,
-		marginLeft: "-50%",
+		marginLeft: "-30%",
 		pointerEvents: "all"
 	},
 	actionButton2: {
 		width: 200,
-		marginLeft: "-80%",
+		marginLeft: "-60%",
 		pointerEvents: "all",
 		marginTop: "-10%",
 	},

@@ -29,7 +29,7 @@ export const HouseKeeper = () => {
 	};
 	useEffect(()=>{
 		e();
-	}, [userContext, roomStatus]);
+	}, [userContext, roomStatus,list]);
 	const [backgroundName, setBackgroundName] = useState("");
 	const getUserName = async () => {
 		const  userName = await getData("userName");

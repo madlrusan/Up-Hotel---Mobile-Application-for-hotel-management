@@ -135,10 +135,13 @@ export const backgroundStyles = StyleSheet.create({
 		textAlign: "center",
 		fontSize: 96,
 		letterSpacing: 0.46,
-		marginTop: "20%",
+		marginTop: "15%",
 	},
 	logoImg: {
-		padding: screenHeight <900 ? 90 : 100,
-		marginLeft: "30%",
+		// padding: screenHeight <900 ? 50 : 130,
+		marginLeft: "0%",
+		marginTop: "-20%",
+		// zIndex: 999,
+		// height: 10
 	} //animation to be added
 });

@@ -1,11 +1,5 @@
 import { Dimensions, Platform, StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		// justifyContent: "center",
-		// alignItems: "center",
-	},
-
 	cardBox: {
 		width: (Dimensions.get("window").width * 9) / 10,
 		height:
@@ -17,27 +11,26 @@ export const styles = StyleSheet.create({
 		marginLeft: 20,
 		marginRight: 40
 	},
-	tableContent: {
-		overflow: "scroll",
-		maxHeight: 250,
-	},
 	buttonContainer: {
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginTop: 10,
+		marginTop: (Dimensions.get("window").height) < 900 ? "15%": "25%",
 		// marginLeft: 110,
 	},
 	Button: {
-		// flex: 1,
 		borderRadius: 5,
 		width: 100,
 	},
 	OptionButton: {
-		// flex: 1,
 		borderRadius: 5,
 		width: 150,
+	},
+	PressedOptionButton: {
+		borderRadius: 5,
+		width: 150,
+		backgroundColor: "grey"
 	},
 	Img:{
 		// height : 70,
@@ -52,17 +45,8 @@ export const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		alignItems: "center",
-		marginTop: 20
+		marginTop:  "5%",
 
-	},
-	logoText: {
-		color: "rgba(222, 224, 150, 0.35)",
-		alignItems : "center",
-		textAlign: "center",
-		fontSize: 70,
-		// marginTop: -60,
-		marginTop: Platform.OS === "ios" ? -60 : 50,
-		letterSpacing: 0.46,
 	},
 
 });
