@@ -2,12 +2,12 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text } from "react-native";
-import { Appbar, Button, TextInput } from "react-native-paper";
-import { formStyles } from "../../../../AppStyles";
+import { Button, TextInput } from "react-native-paper";
+import { backgroundStyles, cardStyles } from "../../../utils/common/AppStyles";
 import { UserContext } from "../../../context/UserContext";
-import { styles } from "./CheckInStyles";
 import { getData } from "../../../constants/Storage";
 import { getInitials } from "../../../utils/helperFunctions";
+import { AppBar } from "../../../utils/common/AppBar/AppBar";
 
 
 export const CheckIn = () => {
@@ -56,15 +56,12 @@ export const CheckIn = () => {
 				colors={["#5856BB", "#E2DA92"]}
 				start={{ x: 0, y: 0 }}
 				end={{ x: 0, y: 1 }}
-				style={styles.container}
+				style={backgroundStyles.container}
 			>
-				<Appbar.Header mode="medium" style={styles.header}>
-					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText} />
-					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo} />
-				</Appbar.Header>
-				<Text style={styles.logoText}> Reception {getInitials(backgroundName)}</Text>
-				<View style={styles.cardBox}>
-					<Text style={formStyles.formHeader}>Check IN New Guests</Text>
+				<AppBar />
+				<Text style={backgroundStyles.backgroundText}> Reception {getInitials(backgroundName)}</Text>
+				<View style={cardStyles.cardBox}>
+					<Text style={cardStyles.formHeader}>Check IN New Guests</Text>
 					<TextInput
 						label="First Name"
 						value={state.CheckInGuestCredentials.firstName}
@@ -80,7 +77,7 @@ export const CheckIn = () => {
 								},
 							};
 						})}
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						keyboardType="default" />
 					<TextInput
 						label="Last Name"
@@ -97,7 +94,7 @@ export const CheckIn = () => {
 								},
 							};
 						})}
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						keyboardType="default" />
 					<TextInput
 						label="Email address"
@@ -115,7 +112,7 @@ export const CheckIn = () => {
 									},
 								};
 							})}
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						keyboardType="email-address"
 					/>
 					<TextInput
@@ -134,14 +131,14 @@ export const CheckIn = () => {
 									},
 								};
 							})}
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						keyboardType="numeric"
 					/>
-					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={() => navigator.goBack()}>
+					<View style={cardStyles.buttonContainer}>
+						<Button style={cardStyles.Button} mode="contained" compact onPress={() => navigator.navigate("ReceptionistDashboard", {})}>
                             Back
 						</Button>
-						<Button style={styles.Button} mode="contained" compact onPress={onSubmit} disabled={state.isSubmitted}>
+						<Button style={cardStyles.Button} mode="contained" compact onPress={onSubmit} disabled={state.isSubmitted}>
                             Confirm
 						</Button>
 					</View>

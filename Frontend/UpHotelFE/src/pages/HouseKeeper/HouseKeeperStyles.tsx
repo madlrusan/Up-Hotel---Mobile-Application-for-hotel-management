@@ -1,98 +1,56 @@
-import { Dimensions, Platform, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		// justifyContent: "center",
-		// alignItems: "center",
-	},
-	logoText: {
-		color: "rgba(222, 224, 150, 0.35)",
-		alignItems : "center",
-		textAlign: "center",
-		fontSize: 70,
-		// marginTop: -60,
-		marginTop: Platform.OS === "ios" ? -60 : 50,
-		letterSpacing: 0.46,
-	},
-	header: {
-		backgroundColor: "rgba(0, 0, 0, 0.4)",
-		marginTop: -50,
-		borderRadius: 3,
-		// position: "relative",
-	},
-	headerLogoText: {
-		color: "rgba(222, 224, 150, 1)",
-		top: 0,
-		fontSize: 30,
-
-	},
-	headerLogo: {
-		top:45,
-		// left: 0,
-		// right: 20,
-	},
-	cardBox: {
-		width: (Dimensions.get("window").width * 9) / 10,
-		height:
-      Platform.OS === "ios" ? (Dimensions.get("window").height * 5) / 12 + 25 : (Dimensions.get("window").height * 6) / 12,
-		backgroundColor: "#fff",
-		borderRadius: 20,
-		padding: 16,
-		marginTop: 10,
-		marginLeft: 20,
-		marginRight: 40
-	},
 	tableContent: {
 		overflow: "scroll",
-		maxHeight: 250,
-	},
-	buttonContainer: {
-		display: "flex",
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginTop: 10,
-		marginLeft: 110,
-
-	},
-	Button: {
-		// flex: 1,
-		borderRadius: 5,
-		width: 100,
+		maxHeight: (Dimensions.get("window").height) < 900 ? 200: 250,
 	},
 	action: {
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-between",
 		alignItems: "center",
-		// marginTop: 20,
-		// marginLeft: 110,
-		marginRight: -100,
+		marginRight: -10,
 		width: 5,
-		// backgroundColor: "rgba(23, 255, 233,1)"
 		pointerEvents: "all"
 	},
 	status:{
-		marginLeft: -100,
-
+		marginLeft: "-50%",
+	},
+	statusCell:{
+		marginLeft: -50,
 	},
 	actionHeader: {
-		marginRight: -120,
+		marginRight: "-80%",
 	},
 	roomText: {
-		marginLeft: 20,
+		marginLeft: 15,
 	},
 	actionButton1: {
 		width: 200,
-		paddingRight: "5vh",
+		marginLeft: "-50%",
 		pointerEvents: "all"
 	},
 	actionButton2: {
 		width: 200,
-		paddingRight: "12vh",
-		pointerEvents: "all"
+		marginLeft: "-80%",
+		pointerEvents: "all",
+		marginTop: "-10%",
 	},
 	Buttons: {
 		backgroundColor: "none",
+	},
+	LogOutButton: {
+		borderRadius: 5,
+		width: "100%",
+		marginLeft: "35%",
+		marginTop: (Dimensions.get("screen").height) < 900 ? "10%" : "-10%"
+	},
+	backgroundName: {
+		color: "rgba(222, 224, 150, 0.35)",
+		alignItems : "center",
+		textAlign: "center",
+		fontSize: (Dimensions.get("screen").width) < 400 ? 60 : 70,
+		marginTop: (Dimensions.get("screen").height) < 900 ? 70 : 80,
+		letterSpacing: 0.46,
 	}
 });

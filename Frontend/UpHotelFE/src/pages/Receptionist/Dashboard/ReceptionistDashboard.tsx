@@ -11,6 +11,8 @@ import { ColoredStatus, getInitials } from "../../../utils/helperFunctions";
 import { helperStyles } from "../../../utils/helperStyles";
 import { RoomDashboard } from "../../../constants/model";
 import { getData, storeData } from "../../../constants/Storage";
+import { AppBar } from "../../../utils/common/AppBar/AppBar";
+import { backgroundStyles, cardStyles } from "../../../utils/common/AppStyles";
 export const ReceptionistDashboard = () => {
 	const userContext = useContext(UserContext);
 	const navigator = useNavigation();
@@ -24,20 +26,24 @@ export const ReceptionistDashboard = () => {
 	const [list, setList] = useState<RoomDashboard[]>([]);
 	async function e () {
 		const roomList : RoomDashboard[] = await userContext.getRooms();
-		setRefreshed(!refreshed);
 
 		setList(roomList?.map(item => {return item;}));
+		// setRefreshed(false);
+		return roomList;
 	}
 	const [refreshed, setRefreshed] = useState<boolean>(false);
-	
-	useMemo(()=>{
-		e();
-	}, [list]);
 	const [backgroundName, setBackgroundName] = useState("");
 	const getUserName = async () => {
 		const  userName = await getData("userName");
 		setBackgroundName(userName);
 	};
+	useEffect(()=>{
+		e();
+		// setRefreshed(!refreshed);
+	}, [backgroundName,list]);
+    
+	
+	
 	getUserName();
 	const onLogOut = () => {
 		userContext.logOut();
@@ -49,14 +55,11 @@ export const ReceptionistDashboard = () => {
 				colors={["#5856BB", "#E2DA92"]}
 				start={{x:0, y:0}}
 				end={{x:0, y:1}}
-				style={styles.container}
+				style={backgroundStyles.container}
 			>
-				<Appbar.Header mode="medium" style={styles.header}>
-					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
-					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
-				</Appbar.Header>
-				<Text style={styles.logoText}> Reception {getInitials(backgroundName)} </Text>
-				<View style={styles.cardBox}>
+				<AppBar />
+				<Text style={backgroundStyles.backgroundText}> Reception {getInitials(backgroundName)} </Text>
+				<View style={cardStyles.cardBox}>
 					<DataTable>
 						<>
 							<DataTable.Header>

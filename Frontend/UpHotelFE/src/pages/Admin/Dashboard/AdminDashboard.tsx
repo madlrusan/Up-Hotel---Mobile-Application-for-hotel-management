@@ -1,13 +1,13 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext, useEffect, useState } from "react";
-import { styles } from "./AdminDashbordStyles";
 import { ScrollView, Text, View } from "react-native";
-import { Appbar, Button, DataTable, Headline } from "react-native-paper";
-import { staffMembers } from "../../../constants/mock-data";
+import { Button, DataTable, Headline } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { AddNewStaff } from "../AddNewStaff/AddNewStaff";
 import { UserContext } from "../../../context/UserContext";
 import { AdminDashBoardUsers } from "../../../constants/model";
+import { AppBar } from "../../../utils/common/AppBar/AppBar";
+import { backgroundStyles, cardStyles } from "../../../utils/common/AppStyles";
 export const TableRow = (name: string, position: string) => {
 
 	return (
@@ -45,22 +45,19 @@ export const AdminDashboard = () => {
 				colors={["#5856BB", "#E2DA92"]}
 				start={{x:0, y:0}}
 				end={{x:0, y:1}}
-				style={styles.container}
+				style={backgroundStyles.container}
 			>
-				<Appbar.Header mode="medium" style={styles.header}>
-					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText}/>
-					<Appbar.Action icon={require("../../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
-				</Appbar.Header>
-				<Text style={styles.logoText}> Admin Dashboard </Text>
-				<View style={styles.cardBox}>
+				<AppBar  />
+				<Text style={backgroundStyles.backgroundText}> Admin Dashboard </Text>
+				<View style={cardStyles.cardBox}>
 					<DataTable>
 						<>
-							<Headline>Staff Members</Headline>
+							<Headline style={cardStyles.headline}>Staff Members</Headline>
 							<DataTable.Header>
 								<DataTable.Title>Staff Name</DataTable.Title>
 								<DataTable.Title >Job Position</DataTable.Title>
 							</DataTable.Header>
-							<ScrollView style={styles.tableContent}>
+							<ScrollView style={cardStyles.tableContent}>
 								{list.map((member, _key) => {return (
 									
 									
@@ -72,11 +69,11 @@ export const AdminDashboard = () => {
 							</ScrollView>
 						</>
 					</DataTable>
-					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={onLogOut}>
+					<View style={cardStyles.buttonContainer}>
+						<Button style={cardStyles.Button} mode="contained" compact onPress={onLogOut}>
                             Log Out
 						</Button>
-						<Button style={styles.Button} mode="contained" compact onPress={OnAddNewStaff}>
+						<Button style={cardStyles.Button} mode="contained" compact onPress={OnAddNewStaff}>
                             Add new staff member
 						</Button>
 					</View>

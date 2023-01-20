@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { Appbar, Button } from "react-native-paper";
-import { formStyles, headerStyle } from "../../../AppStyles";
+import { cardStyles, headerStyle } from "../../utils/common/AppStyles";
 import { UserContext } from "../../context/UserContext";
 import { styles } from "./RoomStyles";
 import { RoomStatus } from "../../Models/types";
@@ -54,7 +54,7 @@ export const Room = () => {
 				</Appbar.Header>
 				<Text style={styles.logoText}> Room {backgroundName}</Text>
 				<View style={styles.cardBox}>
-					<Text style={formStyles.formHeader}>Welcome {guestName}!</Text>
+					<Text style={cardStyles.formHeader}>Welcome {guestName}!</Text>
 					<Text>
             We hope you will enjoy your time while staying in our hotel! We made
             this app special for you!

@@ -1,11 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient";
-import {  styles } from "./LoginStyles";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import { TextInput } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 import { UserContext } from "../../context/UserContext";
 // import { useNavigation } from "@react-navigation/native";
-import { formStyles } from "../../../AppStyles";
+import { backgroundStyles, cardStyles } from "../../utils/common/AppStyles";
 export const Login = ()=>{
 	const context = useContext(UserContext);
 	// const navigator = useNavigation();
@@ -43,13 +42,13 @@ export const Login = ()=>{
 				colors={["#5856BB", "#E2DA92"]}
 				start={{x:0, y:0}}
 				end={{x:0, y:1}}
-				style={styles.container}
+				style={backgroundStyles.container}
 			>
-				<Text style={styles.logoText}> UpHotel </Text>
-				<Image style={styles.logoImg} source={require("../../assets/Logo.png")}/>
-				<View style={formStyles.cardBox}>
-					<Text style={formStyles.formHeader}>Welcome to UpHotel!</Text>
-					<Text style={formStyles.formSubHeader}>Please Login with given credentials</Text>
+				<Text style={backgroundStyles.logoText}> UpHotel </Text>
+				<Image style={backgroundStyles.logoImg} source={require("../../assets/Logo.png")}/>
+				<View style={cardStyles.cardBox}>
+					<Text style={cardStyles.formHeader}>Welcome to UpHotel!</Text>
+					<Text style={cardStyles.formSubHeader}>Please Login with given credentials</Text>
 					<TextInput
 						label="Email address"
 						value={state.loginCredentials.email}
@@ -64,7 +63,7 @@ export const Login = ()=>{
 									},
 								};
 							})}
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						keyboardType="email-address"
 
 					/>
@@ -84,20 +83,9 @@ export const Login = ()=>{
 								};
 							})
 						}
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						secureTextEntry={true}/>
-
-					<TouchableOpacity
-						onPress={onSubmit}
-						disabled={state.isSubmitted}
-						style={
-							!state.isSubmitted
-								? formStyles.formSubmitButton
-								: formStyles.formSubmitButtonDisabled
-						}
-					>
-						<Text style={formStyles.formSubmitButtonText}>Sign in</Text>
-					</TouchableOpacity>
+					<Button style={cardStyles.LoginButton} mode="contained" compact onPress={onSubmit} disabled={state.isSubmitted} > Sign In</Button>
 				</View>
 			</LinearGradient>
 		</>
