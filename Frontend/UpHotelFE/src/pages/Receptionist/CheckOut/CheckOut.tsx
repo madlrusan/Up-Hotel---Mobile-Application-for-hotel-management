@@ -3,11 +3,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { Appbar, Button, TextInput } from "react-native-paper";
-import { formStyles } from "../../../../AppStyles";
+import { backgroundStyles, cardStyles } from "../../../utils/common/AppStyles";
 import { UserContext } from "../../../context/UserContext";
 import { styles } from "./CheckOutStyles";
 import { getData } from "../../../constants/Storage";
 import { getInitials } from "../../../utils/helperFunctions";
+import { AppBar } from "../../../utils/common/AppBar/AppBar";
 
 
 export const CheckOut = () => {
@@ -70,20 +71,12 @@ export const CheckOut = () => {
 				colors={["#5856BB", "#E2DA92"]}
 				start={{ x: 0, y: 0 }}
 				end={{ x: 0, y: 1 }}
-				style={styles.container}
+				style={backgroundStyles.container}
 			>
-				<Appbar.Header mode="medium" style={styles.header}>
-					<Appbar.Content title="UpHotel" titleStyle={styles.headerLogoText} />
-					<Appbar.Action
-						icon={require("../../../assets/Logo.png")}
-						color="rgba(222, 224, 150, 1)"
-						size={50}
-						style={styles.headerLogo}
-					/>
-				</Appbar.Header>
-				<Text style={styles.logoText}> Reception {getInitials(backgroundName)}</Text>
-				<View style={styles.cardBox}>
-					<Text style={formStyles.formHeader}>Check OUT in progress...</Text>
+				<AppBar />
+				<Text style={backgroundStyles.backgroundText}> Reception {getInitials(backgroundName)}</Text>
+				<View style={cardStyles.cardBox}>
+					<Text style={cardStyles.formHeader}>Check OUT in progress...</Text>
 					<TextInput
 						label="Room No"
 						mode="outlined"
@@ -100,27 +93,27 @@ export const CheckOut = () => {
 							})
 						}
                         
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						keyboardType="numeric"
 					/>
 					<TextInput
 						label="Full Name"
 						value={state.CheckOutCredentials.fullName}
 						mode="outlined"
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						disabled={true}
 					/>
 					<TextInput
 						label="Email address"
 						value={state.CheckOutCredentials.email}
 						mode="outlined"
-						style={formStyles.formBox}
+						style={cardStyles.formInput}
 						disabled={true}
 					/>
 
-					<View style={styles.buttonContainer}>
+					<View style={cardStyles.buttonContainer}>
 						<Button
-							style={styles.Button}
+							style={cardStyles.Button}
 							mode="contained"
 							compact
 							onPress={() => navigator.goBack()}
@@ -128,7 +121,7 @@ export const CheckOut = () => {
               Back
 						</Button>
 						<Button
-							style={styles.Button}
+							style={cardStyles.Button}
 							mode="contained"
 							compact
 							onPress={onSubmit}

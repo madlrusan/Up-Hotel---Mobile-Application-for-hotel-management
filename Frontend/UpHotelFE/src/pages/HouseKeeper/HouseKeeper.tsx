@@ -6,10 +6,11 @@ import { Platform, ScrollView, Text, View } from "react-native";
 import { ColoredStatus, getInitials } from "../../utils/helperFunctions";
 import { UserContext } from "../../context/UserContext";
 import Popover from "react-native-popover-view";
-import { headerStyle } from "../../../AppStyles";
+import { backgroundStyles, cardStyles, headerStyle } from "../../utils/common/AppStyles";
 import { RoomStatus } from "../../Models/types";
 import { RoomDashboard } from "../../constants/model";
 import { getData, storeData } from "../../constants/Storage";
+import { AppBar } from "../../utils/common/AppBar/AppBar";
 
 
 export const HouseKeeper = () => {
@@ -45,20 +46,17 @@ export const HouseKeeper = () => {
 				colors={["#5856BB", "#E2DA92"]}
 				start={{x:0, y:0}}
 				end={{x:0, y:1}}
-				style={styles.container}
+				style={backgroundStyles.container}
 			>
-				<Appbar.Header mode="medium" style={headerStyle.header}>
-					<Appbar.Content title="UpHotel" titleStyle={headerStyle.headerLogoText}/>
-					<Appbar.Action icon={require("../../assets/Logo.png")} color="rgba(222, 224, 150, 1)" size={50} style={styles.headerLogo}/>
-				</Appbar.Header>
-				<Text style={styles.logoText}> Housekeeper {getInitials(backgroundName)}</Text>
+				<AppBar />
+				<Text style={styles.backgroundName}> Housekeeper {getInitials(backgroundName)}</Text>
 
-				<View style={styles.cardBox}>
+				<View style={cardStyles.cardBox}>
 					<DataTable>
 						<>
 							<DataTable.Header>
 								<DataTable.Title>Room No.</DataTable.Title>
-								<DataTable.Title >Status</DataTable.Title>
+								<DataTable.Title style={styles.status} >Status</DataTable.Title>
 								<DataTable.Title style={styles.actionHeader} >#</DataTable.Title>
 							</DataTable.Header>
 							<ScrollView style={styles.tableContent}>
@@ -67,7 +65,7 @@ export const HouseKeeper = () => {
 										
 										<DataTable.Row key={key}>
 											<DataTable.Cell style={styles.roomText}>{room.name}</DataTable.Cell>
-											<DataTable.Cell style={styles.status}>{ColoredStatus(room.status)}</DataTable.Cell>
+											<DataTable.Cell style={styles.statusCell}>{ColoredStatus(room.status)}</DataTable.Cell>
 											<DataTable.Cell style={styles.action}> 
 												<View style={styles.Buttons} >
 													<Button icon="account-clock" style={styles.actionButton1} mode="text" onPress={() => setStatus(room.id, RoomStatus.InProgressOfCleaning)}> In progress...</Button>
@@ -81,8 +79,8 @@ export const HouseKeeper = () => {
 							</ScrollView>
 						</>
 					</DataTable>
-					<View style={styles.buttonContainer}>
-						<Button style={styles.Button} mode="contained" compact onPress={onLogOut}>
+					<View style={cardStyles.buttonContainer}>
+						<Button style={styles.LogOutButton} mode="contained" compact onPress={onLogOut}>
                             Log Out
 						</Button>
 					</View>

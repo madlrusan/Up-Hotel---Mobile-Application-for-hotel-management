@@ -31,6 +31,8 @@ export class UserAPI {
 		};
 	}
 	login = async (email: string, password: string) => {
+		AsyncStorage.flushGetRequests();
+		AsyncStorage.clear();
 		const response = await fetch(this.baseUrl + this._endpoints.login, {
 			method: "POST",
 			headers: {
@@ -65,6 +67,8 @@ export class UserAPI {
 			message: "Logout Successful",
 			type: "success",
 		});
+		AsyncStorage.flushGetRequests();
+		AsyncStorage.clear();
 		return true;
 	};
 

@@ -6,15 +6,6 @@ export const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	logoText: {
-		color: "rgba(222, 224, 150, 1)",
-		alignItems : "center",
-		textAlign: "center",
-		fontSize: 96,
-		letterSpacing: 0.46,
-	},
-	logoImg: {
-		paddingVertical: 20,
-	}
+
 });
 
