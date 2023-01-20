@@ -3,8 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { UserContext } from "../../context/UserContext";
-// import { useNavigation } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 import { backgroundStyles, cardStyles } from "../../utils/common/AppStyles";
+import { styles } from "./LoginStyles";
 export const Login = ()=>{
 	const context = useContext(UserContext);
 	// const navigator = useNavigation();
@@ -44,9 +45,10 @@ export const Login = ()=>{
 				end={{x:0, y:1}}
 				style={backgroundStyles.container}
 			>
-				<Text style={backgroundStyles.logoText}> UpHotel </Text>
-				<Image style={backgroundStyles.logoImg} source={require("../../assets/Logo.png")}/>
-				<View style={cardStyles.cardBox}>
+				<Text style={backgroundStyles.logoText}> Up </Text>
+				{/* <Image style={backgroundStyles.logoImg} source={require("../../assets/Logo.png")}/> */}
+				<LottieView  source={require("../../assets/animations/index.json")} autoPlay loop style={backgroundStyles.logoImg}/>
+				<View style={styles.cardBox}>
 					<Text style={cardStyles.formHeader}>Welcome to UpHotel!</Text>
 					<Text style={cardStyles.formSubHeader}>Please Login with given credentials</Text>
 					<TextInput

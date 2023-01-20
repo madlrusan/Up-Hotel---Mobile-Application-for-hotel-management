@@ -1,12 +1,13 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext, useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Linking } from "react-native";
 import { Appbar, Button } from "react-native-paper";
-import { cardStyles, headerStyle } from "../../utils/common/AppStyles";
+import { backgroundStyles, cardStyles, headerStyle } from "../../utils/common/AppStyles";
 import { UserContext } from "../../context/UserContext";
 import { styles } from "./RoomStyles";
 import { RoomStatus } from "../../Models/types";
 import { getData } from "../../constants/Storage";
+import { AppBar } from "../../utils/common/AppBar/AppBar";
 
 export const Room = () => {
 	const userContext = useContext(UserContext);
@@ -16,6 +17,21 @@ export const Room = () => {
 	const [id, setId] = useState("");
 	const [backgroundName, setBackgroundName] = useState("");
 	const [guestName, setGuestName] = useState("");
+	const [dndPressed, setDndPressed] = useState(false);
+	const [callingPressed, setCallingPressed] = useState(false);
+	const [cleaningPressed, setCleaningPressed] = useState(false);
+	const handleCall = () => {
+		const phoneNumber = "tel:+40766792230";
+		Linking.canOpenURL(phoneNumber)
+			.then((supported) => {
+				if (!supported) {
+					console.log("Can't handle phone call");
+				} else {
+					return Linking.openURL(phoneNumber);
+				}
+			})
+			.catch((err) => console.error("An error occurred", err));
+	};
 	const onLogOut = () => {
 		userContext.logOut();
 	};
@@ -41,18 +57,10 @@ export const Room = () => {
 				colors={["#5856BB", "#E2DA92"]}
 				start={{ x: 0, y: 0 }}
 				end={{ x: 0, y: 1 }}
-				style={styles.container}
+				style={backgroundStyles.container}
 			>
-				<Appbar.Header mode="medium" style={headerStyle.header}>
-					<Appbar.Content title="UpHotel" titleStyle={headerStyle.headerLogoText} />
-					<Appbar.Action
-						icon={require("../../assets/Logo.png")}
-						color="rgba(222, 224, 150, 1)"
-						size={50}
-						style={headerStyle.headerLogo}
-					/>
-				</Appbar.Header>
-				<Text style={styles.logoText}> Room {backgroundName}</Text>
+				<AppBar />
+				<Text style={backgroundStyles.backgroundText}> Room {backgroundName}</Text>
 				<View style={styles.cardBox}>
 					<Text style={cardStyles.formHeader}>Welcome {guestName}!</Text>
 					<Text>
@@ -67,9 +75,12 @@ export const Room = () => {
 					<View style={styles.imgButtonContainer}>
 						<Button
 							mode="elevated"
-							style={styles.OptionButton}
+							style={dndPressed? styles.PressedOptionButton : styles.OptionButton}
 							onPress={() => {
 								changeStatus(id, RoomStatus.DoNotDisturb);
+								setDndPressed(true);
+								setCallingPressed(false);
+								setCleaningPressed(false);
 							}}
 						>
 							<Image
@@ -79,9 +90,12 @@ export const Room = () => {
 						</Button>
 						<Button
 							mode="elevated"
-							style={styles.OptionButton}
+							style={cleaningPressed? styles.PressedOptionButton: styles.OptionButton}
 							onPress={() => {
 								changeStatus(id, RoomStatus.NeedCleaning);
+								setDndPressed(false);
+								setCallingPressed(false);
+								setCleaningPressed(true);
 							}}
 						>
 							<Image
@@ -93,9 +107,13 @@ export const Room = () => {
 					<View style={styles.imgButtonContainer}>
 						<Button
 							mode="elevated"
-							style={styles.OptionButton}
+							style={callingPressed ? styles.PressedOptionButton :styles.OptionButton}
 							onPress={() => {
 								changeStatus(id, RoomStatus.CallingReception);
+								handleCall();
+								setDndPressed(false);
+								setCallingPressed(true);
+								setCleaningPressed(false);
 							}}
 						>
 							<Image
@@ -119,6 +137,9 @@ export const Room = () => {
 							compact
 							onPress={() => {
 								changeStatus(id, RoomStatus.Occupied);
+								setCallingPressed(false);
+								setDndPressed(false);
+								setCleaningPressed(false);
 							}}
 						>
               Cancel Option

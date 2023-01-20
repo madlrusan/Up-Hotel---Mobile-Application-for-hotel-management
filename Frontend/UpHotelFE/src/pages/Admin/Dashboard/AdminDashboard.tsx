@@ -37,7 +37,7 @@ export const AdminDashboard = () => {
 	}
 	useEffect(() =>{
 		e();
-	},[userContext]);
+	},[userContext, list]);
 	return (
 		<>
 			<LinearGradient
